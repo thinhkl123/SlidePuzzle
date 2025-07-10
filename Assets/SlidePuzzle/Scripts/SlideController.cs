@@ -154,7 +154,7 @@ public class SlideController : SingletonMono<SlideController>
             _player.MoveTo(newPlayerPos, pos);
         }
 
-        MoveTile(cellMovePosList, direction);
+        MoveGroundTile(cellMovePosList, direction);
     }
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
@@ -167,7 +167,7 @@ public class SlideController : SingletonMono<SlideController>
         return true;
     }
 
-    public void MoveTile(List<Vector2Int> cellsToSlide, Direction direction)
+    public void MoveGroundTile(List<Vector2Int> cellsToSlide, Direction direction)
     {
         canSlide = false;
 
@@ -255,14 +255,14 @@ public class SlideController : SingletonMono<SlideController>
 
     private void SpawnPlayer()
     {
-        _player = Instantiate(playerPrefab, this.CellToWorld(new Vector2Int(0, -4)), Quaternion.identity);
+        _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity);
         _player.SetCurrentPos(new Vector2Int(0, -4));
     }
 
-    public Vector3 CellToWorld(Vector2Int gridPos)
-    {
-        return groundTilemap.CellToWorld((Vector3Int)gridPos) + groundTilemap.cellSize / 2;
-    }
+    //public Vector3 CellToWorld(Vector2Int gridPos)
+    //{
+    //    return groundTilemap.CellToWorld((Vector3Int)gridPos) + groundTilemap.cellSize / 2;
+    //}
 
 }
 
