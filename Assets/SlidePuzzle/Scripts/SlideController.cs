@@ -11,6 +11,7 @@ public class SlideController : SingletonMono<SlideController>
     [Header(" Tile Fake ")]
     [SerializeField] private TileFake groudTileFakePrefab;
     [SerializeField] private TileFake itemTileFakePrefab;
+    [SerializeField] private TileFake enemyNotMoveTileFakePrefab;
 
     [Header(" Player ")]
     [SerializeField] private Player playerPrefab;
@@ -348,6 +349,21 @@ public class SlideController : SingletonMono<SlideController>
         });
     }
 
+    public void DefeatEnemyNotMove(Vector2Int enemyNotMovePos)
+    {
+        Vector3Int cell = new Vector3Int(enemyNotMovePos.x, enemyNotMovePos.y, 0);
+        TileBase tile = enemyNotMoveTilemap.GetTile(cell);
+
+        TileFake obj = Instantiate(enemyNotMoveTileFakePrefab, enemyNotMoveTilemap.GetCellCenterWorld(cell), Quaternion.identity);
+        Sprite sprite = GetSpriteFromTile(tile);
+        if (sprite != null)
+            obj.SetSprite(sprite);
+
+        enemyNotMoveTilemap.SetTile(cell, null);
+
+        obj.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack);
+    }
+
     Sprite GetSpriteFromTile(TileBase tile)
     {
         if (tile is Tile t)
@@ -361,7 +377,14 @@ public class SlideController : SingletonMono<SlideController>
     {
         curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
         SetItemTile();
+        SetEnemyNotMoveTile();
         SpawnPlayer();
+    }
+
+    private void SetEnemyNotMoveTile()
+    {
+        int enemyNotMoveId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].EnemyNotMoveId;
+        EnemyNotMoveTileController.Instance.SetEnemyNotMovePosList(DataManager.Instance.EnemyNotMoveData.EnemyNotMoveDetails[enemyNotMoveId - 1].enemyNotMovePosList);
     }
 
     private void SetItemTile()

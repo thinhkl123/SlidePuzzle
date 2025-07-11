@@ -11,4 +11,14 @@ public class EnemyNotMoveTileController : SingletonMono<EnemyNotMoveTileControll
     {
         this.enemyNotMovePosList = new List<Vector2Int>(enemyNotMovePosList);
     }
+
+    public void CheckDefeatEnemy(Vector2Int weaponPos)
+    {
+        if (this.enemyNotMovePosList.Contains(weaponPos))
+        {
+            Debug.Log("Defeat");
+            this.enemyNotMovePosList.Remove(weaponPos);
+            SlideController.Instance.DefeatEnemyNotMove(weaponPos);
+        }
+    }
 }

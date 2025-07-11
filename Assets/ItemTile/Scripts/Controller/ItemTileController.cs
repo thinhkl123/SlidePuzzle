@@ -17,6 +17,8 @@ public class ItemTileController : SingletonMono<ItemTileController>
         {
             weaponPosList.Remove(oldPos);
             weaponPosList.Add(newPos);
+
+            EnemyNotMoveTileController.Instance.CheckDefeatEnemy(newPos);
         }
     }
 }

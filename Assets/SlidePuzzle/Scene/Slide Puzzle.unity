@@ -562,7 +562,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 51
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -674,6 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelData: {fileID: 11400000, guid: 8c6e6ca4d117d4e47bcd65140dd42d81, type: 2}
   ItemData: {fileID: 11400000, guid: ee86da8c514fe0f4f9a4d3a686b0dcd4, type: 2}
+  EnemyNotMoveData: {fileID: 11400000, guid: 9d304a80b152e6f449015d407330399d, type: 2}
 --- !u!4 &1006784442
 Transform:
   m_ObjectHideFlags: 0
@@ -2064,6 +2065,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groudTileFakePrefab: {fileID: 5901420331145464749, guid: 555ab444c585ab141ac9c80170511fd3, type: 3}
   itemTileFakePrefab: {fileID: 5901420331145464749, guid: 1d85707e48d896748a50ce29b152b06e, type: 3}
+  enemyNotMoveTileFakePrefab: {fileID: 5901420331145464749, guid: f2096079085decb46a11307e8d0ac376, type: 3}
   playerPrefab: {fileID: 2165942121257486253, guid: 5fec3d4a25f004b438e87b2e436fc08e, type: 3}
   groundTilemap: {fileID: 1742104578}
   obstacleTilemap: {fileID: 2017090210}
@@ -2157,7 +2159,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 51
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
