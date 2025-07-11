@@ -5,6 +5,7 @@ using CustomUtils;
 using UnityEngine.Tilemaps;
 using System;
 using DG.Tweening;
+using static Unity.Collections.AllocatorManager;
 
 public class SlideController : SingletonMono<SlideController> 
 {
@@ -289,7 +290,7 @@ public class SlideController : SingletonMono<SlideController>
 
             if (itemTilemap.HasTile(cell))
             {
-                int fromIndex = cellMoveList.Count;
+                int fromIndex = cellMoveList.Count-1;
                 if (i > 0)
                     fromIndex = i - 1;
 
@@ -405,20 +406,32 @@ public class SlideController : SingletonMono<SlideController>
     {
         curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
         SetItemTile();
+        SetBlockTile();
         SetEnemyNotMoveTile();
         SpawnPlayer();
+    }
+
+    private void SetBlockTile()
+    {
+        int blockId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].BlockId;
+        if (blockId != 0)
+            BlockTileController.Instance.SetBlockList(DataManager.Instance.BlockData.BlockDetails[blockId - 1].Blocks);
     }
 
     private void SetEnemyNotMoveTile()
     {
         int enemyNotMoveId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].EnemyNotMoveId;
-        EnemyNotMoveTileController.Instance.SetEnemyNotMovePosList(DataManager.Instance.EnemyNotMoveData.EnemyNotMoveDetails[enemyNotMoveId - 1].enemyNotMovePosList);
+        if (enemyNotMoveId != 0)
+            EnemyNotMoveTileController.Instance.SetEnemyNotMovePosList(DataManager.Instance.EnemyNotMoveData.EnemyNotMoveDetails[enemyNotMoveId - 1].enemyNotMovePosList);
     }
 
     private void SetItemTile()
     {
         int itemId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].ItemId;
-        ItemTileController.Instance.SetWeaponPosList(DataManager.Instance.ItemData.ItemDetails[itemId - 1].WeaponPosList);
+        if (itemId != 0)
+            ItemTileController.Instance.SetWeaponPosList(DataManager.Instance.ItemData.ItemDetails[itemId - 1].WeaponPosList);
+        if (itemId != 0)
+            ItemTileController.Instance.SetKeyPosList(DataManager.Instance.ItemData.ItemDetails[itemId-1].KeyPosList);
     }
 
     private void SpawnPlayer()
