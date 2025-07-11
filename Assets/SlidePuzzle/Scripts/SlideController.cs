@@ -247,7 +247,9 @@ public class SlideController : SingletonMono<SlideController>
                     continue;
                 }
 
+
                 Vector2Int toCell = cellsToSlide[i];
+                ItemTileController.Instance.UpdateItemPosList(cellsToSlide[fromIndex], toCell); //Update Item Pos List
                 itemTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
             }
 

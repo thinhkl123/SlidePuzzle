@@ -14,4 +14,5 @@ public class LevelDetail
     public int LevelId;
     public Vector2Int PlayerPosition;
     public int ItemId;
+    public int EnemyNotMoveId;
 }

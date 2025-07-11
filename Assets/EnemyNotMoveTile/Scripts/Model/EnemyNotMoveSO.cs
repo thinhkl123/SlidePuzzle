@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "EnemyNotMoveSO", fileName = "EnemyNotMoveData")]
 public class EnemyNotMoveSO : ScriptableObject
 {
-    List<EnemyNotMoveDetail> EnemyNotMoveDetails;
+    public List<EnemyNotMoveDetail> EnemyNotMoveDetails;
 }
 
 [Serializable]

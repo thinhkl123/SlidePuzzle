@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeb41507a8a291c4f98466a5cb28ad73, type: 3}
-  m_Name: LevelData
+  m_Script: {fileID: 11500000, guid: 6e00610ab9cdf7c42a745fdf6eb820c0, type: 3}
+  m_Name: EnemyNotMoveData
   m_EditorClassIdentifier: 
-  LevelDetails:
-  - LevelId: 1
-    PlayerPosition: {x: -10, y: -1}
-    ItemId: 1
-    EnemyNotMoveId: 1
+  EnemyNotMoveDetails:
+  - enemyNotMoveId: 1
+    enemyNotMovePosList:
+    - {x: 2, y: -6}
