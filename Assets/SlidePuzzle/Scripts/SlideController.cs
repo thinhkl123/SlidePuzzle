@@ -9,7 +9,8 @@ using DG.Tweening;
 public class SlideController : SingletonMono<SlideController> 
 {
     [Header(" Tile Fake ")]
-    [SerializeField] private TileFake tileFakePrefab;
+    [SerializeField] private TileFake groudTileFakePrefab;
+    [SerializeField] private TileFake itemTileFakePrefab;
 
     [Header(" Player ")]
     [SerializeField] private Player playerPrefab;
@@ -17,10 +18,12 @@ public class SlideController : SingletonMono<SlideController>
     [Header(" TileMap ")]
     public Tilemap groundTilemap;
     public Tilemap obstacleTilemap;
-
+    public Tilemap itemTilemap;
+    public Tilemap enemyNotMoveTilemap;
 
     private Player _player;
     private bool canSlide;
+    private int curLevelId;
 
     private void Start()
     {
@@ -158,12 +161,110 @@ public class SlideController : SingletonMono<SlideController>
 
         MoveGroundTile(cellMovePosList, direction);
 
-        
+        MoveItemTile(cellMovePosList, direction);
+    }
+
+    private void MoveItemTile(List<Vector2Int> cellsToSlide, Direction direction)
+    {
+        if (DataManager.Instance.LevelData.LevelDetails[curLevelId-1].ItemId == 0)
+        {
+            return;
+        }
+
+        //Spawn các tile động theo thứ tự cells
+        List<TileFake> clones = new List<TileFake>();
+        List<TileBase> tileOrder = new List<TileBase>();
+
+        foreach (Vector2Int cellPos in cellsToSlide)
+        {
+            Vector3Int cell = new Vector3Int(cellPos.x, cellPos.y, 0);
+            TileBase tile = itemTilemap.GetTile(cell);
+            if (tile == null)
+            {
+                clones.Add(null);
+                tileOrder.Add(null);
+
+                continue;
+            }
+
+            // Lưu thứ tự tile để xử lý logic wrap-around
+            tileOrder.Add(tile);
+
+            // Tạo GameObject clone để tween
+            TileFake obj = Instantiate(itemTileFakePrefab, itemTilemap.GetCellCenterWorld(cell), Quaternion.identity);
+            Sprite sprite = GetSpriteFromTile(tile);
+            if (sprite != null)
+                obj.SetSprite(sprite);
+
+            obj.gridPos = cellPos;
+            clones.Add(obj);
+
+            itemTilemap.SetTile(cell, null);
+        }
+
+        //Di chuyển các tile
+        int count = cellsToSlide.Count;
+        for (int i = 1; i < count; i++)
+        {
+            if (clones[i] == null)
+            {
+                continue;
+            }
+            Vector2Int toGrid = cellsToSlide[i - 1];
+            Vector3 worldPos = itemTilemap.GetCellCenterWorld(new Vector3Int(toGrid.x, toGrid.y, 0));
+
+            clones[i].MoveTo(toGrid, worldPos);
+        }
+
+        // Tile cuối
+        if (clones[0] != null)
+        {
+            TileFake wrapTile = clones[0];
+            Vector2Int wrapToGrid = cellsToSlide[count - 1];
+            Vector3 wrapToPos = itemTilemap.GetCellCenterWorld((Vector3Int)cellsToSlide[count - 1]);
+
+            // 1. Scale nhỏ dần để ẩn tile
+            wrapTile.transform.DOScale(Vector3.zero, 0.1f).SetEase(Ease.InBack).OnComplete(() =>
+            {
+                // 2. Di chuyển đến đầu hàng
+                wrapTile.transform.position = wrapToPos;
+                wrapTile.gridPos = wrapToGrid;
+
+                // 3. Scale lớn lên để hiện tile lại
+                wrapTile.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.OutBack);
+            });
+        }
+
+        //Bước 3: Sau khi tween xong → cập nhật lại Tilemap và xóa clone
+        DOVirtual.DelayedCall(0.25f, () =>
+        {
+            for (int i = 0; i < count; i++)
+            {
+                int fromIndex = (i + 1) % count;
+
+                if (tileOrder[fromIndex] == null)
+                {
+                    continue;
+                }
+
+                Vector2Int toCell = cellsToSlide[i];
+                itemTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
+            }
+
+            foreach (var obj in clones)
+            {
+                if (obj != null)
+                    Destroy(obj.gameObject);
+            }
+        });
     }
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
     {
-        
+        if (enemyNotMoveTilemap.HasTile(cellPlayer))
+        {
+            return false;
+        }
 
         if (cellMoveList.Count <= 1 || obstacleTilemap.HasTile(cellPlayer))
         {
@@ -191,7 +292,7 @@ public class SlideController : SingletonMono<SlideController>
             tileOrder.Add(tile);
 
             // Tạo GameObject clone để tween
-            TileFake obj = Instantiate(tileFakePrefab, groundTilemap.GetCellCenterWorld(cell), Quaternion.identity);
+            TileFake obj = Instantiate(groudTileFakePrefab, groundTilemap.GetCellCenterWorld(cell), Quaternion.identity);
             Sprite sprite = GetSpriteFromTile(tile);
             if (sprite != null)
                 obj.SetSprite(sprite);
@@ -256,13 +357,23 @@ public class SlideController : SingletonMono<SlideController>
 
     private void SpawnLevel()
     {
+        curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        SetItemTile();
         SpawnPlayer();
+    }
+
+    private void SetItemTile()
+    {
+        int itemId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].ItemId;
+        ItemTileController.Instance.SetWeaponPosList(DataManager.Instance.ItemData.ItemDetails[itemId - 1].WeaponPosList);
     }
 
     private void SpawnPlayer()
     {
-        _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(new Vector3Int(-10, -1, 0)) + groundTilemap.cellSize / 2, Quaternion.identity);
-        _player.SetCurrentPos(new Vector2Int(-10, -1));
+        Vector2Int pp = DataManager.Instance.LevelData.LevelDetails[curLevelId-1].PlayerPosition;
+        Vector3Int initPlayerPos = new Vector3Int(pp.x, pp.y, 0);
+        _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(initPlayerPos) + groundTilemap.cellSize / 2, Quaternion.identity);
+        _player.SetCurrentPos(pp);
     }
 
     //public Vector3 CellToWorld(Vector2Int gridPos)
