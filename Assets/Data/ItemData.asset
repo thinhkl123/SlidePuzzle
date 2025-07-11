@@ -16,3 +16,6 @@ MonoBehaviour:
   - ItemId: 1
     WeaponPosList:
     - {x: -4, y: -6}
+    - {x: 1, y: -4}
+    - {x: 4, y: 5}
+    - {x: 13, y: 3}

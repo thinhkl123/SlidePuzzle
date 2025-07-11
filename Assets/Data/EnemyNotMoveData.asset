@@ -16,3 +16,6 @@ MonoBehaviour:
   - enemyNotMoveId: 1
     enemyNotMovePosList:
     - {x: 2, y: -6}
+    - {x: 5, y: -4}
+    - {x: 7, y: 6}
+    - {x: 14, y: 1}

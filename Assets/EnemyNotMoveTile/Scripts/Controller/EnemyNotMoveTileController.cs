@@ -16,7 +16,7 @@ public class EnemyNotMoveTileController : SingletonMono<EnemyNotMoveTileControll
     {
         if (this.enemyNotMovePosList.Contains(weaponPos))
         {
-            Debug.Log("Defeat");
+            //Debug.Log("Defeat");
             this.enemyNotMovePosList.Remove(weaponPos);
             SlideController.Instance.DefeatEnemyNotMove(weaponPos);
         }

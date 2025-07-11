@@ -248,7 +248,6 @@ public class SlideController : SingletonMono<SlideController>
                     continue;
                 }
 
-
                 Vector2Int toCell = cellsToSlide[i];
                 ItemTileController.Instance.UpdateItemPosList(cellsToSlide[fromIndex], toCell); //Update Item Pos List
                 itemTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
@@ -264,6 +263,11 @@ public class SlideController : SingletonMono<SlideController>
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
     {
+        if (CheckItemCollideWithObstacle(cellMoveList))
+        {
+            return false;
+        }
+
         if (enemyNotMoveTilemap.HasTile(cellPlayer))
         {
             return false;
@@ -275,6 +279,30 @@ public class SlideController : SingletonMono<SlideController>
         }
 
         return true;
+    }
+
+    private bool CheckItemCollideWithObstacle(List<Vector2Int> cellMoveList)
+    {
+        for (int i = 0; i < cellMoveList.Count; i++)
+        {
+            Vector3Int cell = new Vector3Int(cellMoveList[i].x, cellMoveList[i].y, 0);
+
+            if (itemTilemap.HasTile(cell))
+            {
+                int fromIndex = cellMoveList.Count;
+                if (i > 0)
+                    fromIndex = i - 1;
+
+                cell = new Vector3Int(cellMoveList[fromIndex].x, cellMoveList[fromIndex].y, 0);
+
+                if (obstacleTilemap.HasTile(cell))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public void MoveGroundTile(List<Vector2Int> cellsToSlide, Direction direction)
