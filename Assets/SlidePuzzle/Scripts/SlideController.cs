@@ -17,6 +17,7 @@ public class SlideController : SingletonMono<SlideController>
     [Header(" TileMap ")]
     public Tilemap groundTilemap;
     public Tilemap obstacleTilemap;
+    public Tilemap puzzleSortTilemap;
 
 
     private Player _player;
@@ -127,6 +128,15 @@ public class SlideController : SingletonMono<SlideController>
 
         Vector2Int newPlayerPos = new Vector2Int(0, 0);
         bool isTeleport = false;
+        
+        // Vu Khoa
+        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
+        if (cellMovePosList[0] == _player.GetCurrentPos() && inPuzzleSort)
+        {
+            _player.Shake();
+            return;
+        }
+
         if (cellMovePosList[0] == _player.GetCurrentPos())
         {
             newPlayerPos = cellMovePosList[cellMovePosList.Count-1];
@@ -156,9 +166,15 @@ public class SlideController : SingletonMono<SlideController>
             _player.MoveTo(newPlayerPos, pos);
         }
 
-        MoveGroundTile(cellMovePosList, direction);
+        // Vu Khoa
+        if (inPuzzleSort)
+        {
+            MoveGroundTile(cellMovePosList, direction, true);
+            PuzzleSortController.Instance.MovePuzzleSortTile(_player, offset, puzzleSortTilemap);
+            return;
+        }
 
-        
+        MoveGroundTile(cellMovePosList, direction);
     }
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
@@ -173,7 +189,7 @@ public class SlideController : SingletonMono<SlideController>
         return true;
     }
 
-    public void MoveGroundTile(List<Vector2Int> cellsToSlide, Direction direction)
+    public void MoveGroundTile(List<Vector2Int> cellsToSlide, Direction direction, bool inPuzzleSort = false)
     {
         canSlide = false;
 
@@ -242,6 +258,14 @@ public class SlideController : SingletonMono<SlideController>
                 Destroy(obj.gameObject);
 
             canSlide = true;
+
+            // Vu Khoa
+            if (inPuzzleSort)
+            {
+                PuzzleSortController.Instance.CheckResult(_player);
+                return;
+            }
+            PuzzleSortController.Instance.CheckPortPos(_player);
         });
     }
 
@@ -261,8 +285,8 @@ public class SlideController : SingletonMono<SlideController>
 
     private void SpawnPlayer()
     {
-        _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(new Vector3Int(-10, -1, 0)) + groundTilemap.cellSize / 2, Quaternion.identity);
-        _player.SetCurrentPos(new Vector2Int(-10, -1));
+        _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(new Vector3Int(-7, -4, 0)) + groundTilemap.cellSize / 2, Quaternion.identity);
+        _player.SetCurrentPos(new Vector2Int(-7, -4));
     }
 
     //public Vector3 CellToWorld(Vector2Int gridPos)
