@@ -26,6 +26,7 @@ public class SlideController : SingletonMono<SlideController>
     private void Start()
     {
         SpawnLevel();
+        PuzzleSortController.Instance.InitResult(0);
         canSlide = true;
     }
 
@@ -130,7 +131,7 @@ public class SlideController : SingletonMono<SlideController>
         bool isTeleport = false;
         
         // Vu Khoa
-        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
+        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player, 0);
         if (cellMovePosList[0] == _player.GetCurrentPos() && inPuzzleSort)
         {
             _player.Shake();

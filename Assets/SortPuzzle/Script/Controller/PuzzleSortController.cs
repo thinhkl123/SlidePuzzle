@@ -10,18 +10,19 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
 
     private List<List<int>> _result;
     private Vector2Int _puzzleSize;
+    private int _levelId = 0;
 
     private void Start()
     {
-        this.InitResult();
-        this.Shuffle();
+        //this.InitResult(0);
+        //this.Shuffle();
     }
 
-    public void InitResult()
+    public void InitResult(int levelId)
     {
-        this._puzzleSize = 
-                            PuzzleSortLevelData.ListPuzzleSortData[0].EndGroundPos -
-                            PuzzleSortLevelData.ListPuzzleSortData[0].StartGroundPos +
+        this._levelId = levelId;
+        this._puzzleSize =  PuzzleSortLevelData.ListPuzzleSortData[levelId].EndGroundPos -
+                            PuzzleSortLevelData.ListPuzzleSortData[levelId].StartGroundPos +
                             Vector2Int.one;
         this._result = new List<List<int>>();
 
@@ -49,8 +50,8 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
                 this.SwapResult(new Vector2Int(i, j), new Vector2Int(randomI, randomJ));
 
                 // Swap Tilemap
-                Vector2Int fromPos = PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
-                Vector2Int toPos = PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
+                Vector2Int fromPos = PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
+                Vector2Int toPos = PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
                 fromPos += new Vector2Int(j, i);
                 toPos += new Vector2Int(randomJ, randomI);
                 this.SwapTiles(fromPos, toPos);
@@ -66,8 +67,8 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
                     this.SwapResult(new Vector2Int(i, j), new Vector2Int(0, 1));
 
                     // Swap Tilemap
-                    Vector2Int fromPos = PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
-                    Vector2Int toPos = PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
+                    Vector2Int fromPos = PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
+                    Vector2Int toPos = PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
                     fromPos += new Vector2Int(j, i);
                     toPos += new Vector2Int(1, 0);
                     this.SwapTiles(fromPos, toPos);
@@ -79,20 +80,20 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
 
     public void MovePuzzleSortTile(Player player, Vector2Int offsetPlayer, Tilemap puzzleSortTilemap)
     {
-        Vector2Int offset = player.GetCurrentPos() - PuzzleSortLevelData.ListPuzzleSortData[0].StartGroundPos;
-        Vector2Int puzzlePos1 = PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
+        Vector2Int offset = player.GetCurrentPos() - PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartGroundPos;
+        Vector2Int puzzlePos1 = PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
         puzzlePos1 += offset;
 
-        offset = (player.GetCurrentPos() - offsetPlayer) - PuzzleSortLevelData.ListPuzzleSortData[0].StartGroundPos;
-        Vector2Int puzzlePos2 = PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
+        offset = (player.GetCurrentPos() - offsetPlayer) - PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartGroundPos;
+        Vector2Int puzzlePos2 = PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
         puzzlePos2 += offset;
 
         // Swap Tiles
         this.SwapTiles(puzzlePos1, puzzlePos2);
 
         // Swap result
-        puzzlePos1 = puzzlePos1 - PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
-        puzzlePos2 = puzzlePos2 - PuzzleSortLevelData.ListPuzzleSortData[0].StartPuzzlePos;
+        puzzlePos1 = puzzlePos1 - PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
+        puzzlePos2 = puzzlePos2 - PuzzleSortLevelData.ListPuzzleSortData[_levelId].StartPuzzlePos;
         this.SwapResult(new Vector2Int(puzzlePos1.y, puzzlePos1.x), new Vector2Int(puzzlePos2.y, puzzlePos2.x));
     }
 
@@ -131,12 +132,12 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
         return true;
     }
 
-    public bool CheckPlayerInPuzzleSort(Player player)
+    public bool CheckPlayerInPuzzleSort(Player player, int levelId)
     {
-        if (player.GetCurrentPos().x >= PuzzleSortLevelData.ListPuzzleSortData[0].StartGroundPos.x &&
-            player.GetCurrentPos().x <= PuzzleSortLevelData.ListPuzzleSortData[0].EndGroundPos.x &&
-            player.GetCurrentPos().y >= PuzzleSortLevelData.ListPuzzleSortData[0].StartGroundPos.y &&
-            player.GetCurrentPos().y <= PuzzleSortLevelData.ListPuzzleSortData[0].EndGroundPos.y
+        if (player.GetCurrentPos().x >= PuzzleSortLevelData.ListPuzzleSortData[levelId].StartGroundPos.x &&
+            player.GetCurrentPos().x <= PuzzleSortLevelData.ListPuzzleSortData[levelId].EndGroundPos.x &&
+            player.GetCurrentPos().y >= PuzzleSortLevelData.ListPuzzleSortData[levelId].StartGroundPos.y &&
+            player.GetCurrentPos().y <= PuzzleSortLevelData.ListPuzzleSortData[levelId].EndGroundPos.y
             )
         {
             return true;
