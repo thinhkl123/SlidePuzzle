@@ -22,6 +22,7 @@ public class SlideController : SingletonMono<SlideController>
     public Tilemap puzzleSortTilemap;
     public Tilemap itemTilemap;
     public Tilemap enemyNotMoveTilemap;
+    public Tilemap lazeTilemap;
 
     private Player _player;
     private bool canSlide;
@@ -289,7 +290,7 @@ public class SlideController : SingletonMono<SlideController>
             return false;
         }
 
-        if (cellMoveList.Count <= 1 || obstacleTilemap.HasTile(cellPlayer))
+        if (cellMoveList.Count <= 1 || obstacleTilemap.HasTile(cellPlayer) || lazeTilemap.HasTile(cellPlayer))
         {
             return false;
         }
@@ -448,7 +449,8 @@ public class SlideController : SingletonMono<SlideController>
 
     private void SpawnPlayer()
     {
-        Vector2Int pp = DataManager.Instance.LevelData.LevelDetails[curLevelId-1].PlayerPosition;
+        //Vector2Int pp = DataManager.Instance.LevelData.LevelDetails[curLevelId-1].PlayerPosition;
+        Vector2Int pp = new Vector2Int(-9, 2);
         Vector3Int initPlayerPos = new Vector3Int(pp.x, pp.y, 0);
         _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(initPlayerPos) + groundTilemap.cellSize / 2, Quaternion.identity);
         _player.SetCurrentPos(pp);
