@@ -16,6 +16,8 @@ public class SlideController : SingletonMono<SlideController>
 
     [Header(" TileMap ")]
     public Tilemap groundTilemap;
+    public Tilemap obstacleTilemap;
+
 
     private Player _player;
     private bool canSlide;
@@ -155,11 +157,15 @@ public class SlideController : SingletonMono<SlideController>
         }
 
         MoveGroundTile(cellMovePosList, direction);
+
+        
     }
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
     {
-        if (cellMoveList.Count <= 1)
+        
+
+        if (cellMoveList.Count <= 1 || obstacleTilemap.HasTile(cellPlayer))
         {
             return false;
         }
@@ -255,8 +261,8 @@ public class SlideController : SingletonMono<SlideController>
 
     private void SpawnPlayer()
     {
-        _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity);
-        _player.SetCurrentPos(new Vector2Int(0, -4));
+        _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(new Vector3Int(-10, -1, 0)) + groundTilemap.cellSize / 2, Quaternion.identity);
+        _player.SetCurrentPos(new Vector2Int(-10, -1));
     }
 
     //public Vector3 CellToWorld(Vector2Int gridPos)
