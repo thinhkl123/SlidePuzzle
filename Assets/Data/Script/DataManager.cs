@@ -9,4 +9,5 @@ public class DataManager : SingletonMono<DataManager>
     public LevelSO LevelData;
     public ItemSO ItemData;
     public EnemyNotMoveSO EnemyNotMoveData;
+    public PuzzleSortLevelSO PuzzleSortLevelData;
 }

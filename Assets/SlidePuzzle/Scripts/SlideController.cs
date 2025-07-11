@@ -30,7 +30,6 @@ public class SlideController : SingletonMono<SlideController>
     private void Start()
     {
         SpawnLevel();
-        PuzzleSortController.Instance.InitResult(0);
         canSlide = true;
     }
 
@@ -170,6 +169,8 @@ public class SlideController : SingletonMono<SlideController>
             _player.MoveTo(newPlayerPos, pos);
         }
 
+        MoveItemTile(cellMovePosList, direction);
+
         // Vu Khoa
         if (inPuzzleSort)
         {
@@ -177,9 +178,7 @@ public class SlideController : SingletonMono<SlideController>
             PuzzleSortController.Instance.MovePuzzleSortTile(_player, offset, puzzleSortTilemap);
             return;
         }
-
         MoveGroundTile(cellMovePosList, direction);
-        MoveItemTile(cellMovePosList, direction);
     }
 
     private void MoveItemTile(List<Vector2Int> cellsToSlide, Direction direction)
@@ -429,6 +428,7 @@ public class SlideController : SingletonMono<SlideController>
     private void SpawnLevel()
     {
         curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        PuzzleSortController.Instance.SetPuzzleSort(curLevelId);
         SetItemTile();
         SetEnemyNotMoveTile();
         SpawnPlayer();
@@ -448,8 +448,6 @@ public class SlideController : SingletonMono<SlideController>
 
     private void SpawnPlayer()
     {
-        //_player = Instantiate(playerPrefab, groundTilemap.CellToWorld(new Vector3Int(-7, -4, 0)) + groundTilemap.cellSize / 2, Quaternion.identity);
-        //_player.SetCurrentPos(new Vector2Int(-7, -4));
         Vector2Int pp = DataManager.Instance.LevelData.LevelDetails[curLevelId-1].PlayerPosition;
         Vector3Int initPlayerPos = new Vector3Int(pp.x, pp.y, 0);
         _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(initPlayerPos) + groundTilemap.cellSize / 2, Quaternion.identity);
