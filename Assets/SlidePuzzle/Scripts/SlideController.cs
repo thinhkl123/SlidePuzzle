@@ -130,18 +130,10 @@ public class SlideController : SingletonMono<SlideController>
                 offset = new Vector2Int(0, -1);
                 break;
         }
-
+        // Vu Khoa
+        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
         Vector2Int newPlayerPos = new Vector2Int(0, 0);
         bool isTeleport = false;
-        
-        // Vu Khoa
-        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player, 0);
-        if (cellMovePosList[0] == _player.GetCurrentPos() && inPuzzleSort)
-        {
-            _player.Shake();
-            return;
-        }
-
         if (cellMovePosList[0] == _player.GetCurrentPos())
         {
             newPlayerPos = cellMovePosList[cellMovePosList.Count-1];
@@ -155,7 +147,6 @@ public class SlideController : SingletonMono<SlideController>
         if (!CheckPlayerCanMove(newPlayerGridPos, cellMovePosList))
         {
             _player.Shake();
-
             return;
         }
 
@@ -171,7 +162,6 @@ public class SlideController : SingletonMono<SlideController>
         }
 
         MoveItemTile(cellMovePosList, direction);
-
         // Vu Khoa
         if (inPuzzleSort)
         {
@@ -280,6 +270,13 @@ public class SlideController : SingletonMono<SlideController>
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
     {
+        // Vu Khoa
+        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
+        if (cellMoveList[0] == _player.GetCurrentPos() && inPuzzleSort)
+        {
+            return false;
+        }
+
         if (CheckItemCollideWithObstacle(cellMoveList))
         {
             return false;
@@ -429,10 +426,16 @@ public class SlideController : SingletonMono<SlideController>
     private void SpawnLevel()
     {
         curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
-        PuzzleSortController.Instance.SetPuzzleSort(curLevelId);
+        this.SetPuzzleSort();
         SetItemTile();
         SetEnemyNotMoveTile();
         SpawnPlayer();
+    }
+
+    private void SetPuzzleSort()
+    {
+        int puzzleSortId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].PuzzleSortId;
+        PuzzleSortController.Instance.SetPuzzleSort(puzzleSortId);
     }
 
     private void SetEnemyNotMoveTile()
@@ -450,7 +453,7 @@ public class SlideController : SingletonMono<SlideController>
     private void SpawnPlayer()
     {
         //Vector2Int pp = DataManager.Instance.LevelData.LevelDetails[curLevelId-1].PlayerPosition;
-        Vector2Int pp = new Vector2Int(-9, 2);
+        Vector2Int pp = new Vector2Int(-10, 0);
         Vector3Int initPlayerPos = new Vector3Int(pp.x, pp.y, 0);
         _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(initPlayerPos) + groundTilemap.cellSize / 2, Quaternion.identity);
         _player.SetCurrentPos(pp);

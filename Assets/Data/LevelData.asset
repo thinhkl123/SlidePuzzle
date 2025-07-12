@@ -17,3 +17,4 @@ MonoBehaviour:
     PlayerPosition: {x: -10, y: -1}
     ItemId: 1
     EnemyNotMoveId: 1
+    PuzzleSortId: 1

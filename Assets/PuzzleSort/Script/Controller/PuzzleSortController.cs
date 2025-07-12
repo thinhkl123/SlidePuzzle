@@ -9,10 +9,9 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
     private Vector2Int _puzzleSize;
     private int _index = -1;
 
-    public void SetPuzzleSort(int levelId)
+    public void SetPuzzleSort(int puzzleSortId)
     {
-        this._index = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData.FindIndex(p => p.LevelId == levelId);
-        Debug.Log(this._index);
+        this._index = puzzleSortId - 1;
         if (this._index < 0) return;
 
         this._puzzleSize =  DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].EndGroundPos -
@@ -127,14 +126,12 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
         return true;
     }
 
-    public bool CheckPlayerInPuzzleSort(Player player, int levelId)
+    public bool CheckPlayerInPuzzleSort(Player player)
     {
-
-
-        if (player.GetCurrentPos().x >= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[levelId].StartGroundPos.x &&
-            player.GetCurrentPos().x <= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[levelId].EndGroundPos.x &&
-            player.GetCurrentPos().y >= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[levelId].StartGroundPos.y &&
-            player.GetCurrentPos().y <= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[levelId].EndGroundPos.y
+        if (player.GetCurrentPos().x >= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartGroundPos.x &&
+            player.GetCurrentPos().x <= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].EndGroundPos.x &&
+            player.GetCurrentPos().y >= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartGroundPos.y &&
+            player.GetCurrentPos().y <= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].EndGroundPos.y
             )
         {
             return true;

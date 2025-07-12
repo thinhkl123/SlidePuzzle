@@ -15,4 +15,5 @@ public class LevelDetail
     public Vector2Int PlayerPosition;
     public int ItemId;
     public int EnemyNotMoveId;
+    public int PuzzleSortId;
 }

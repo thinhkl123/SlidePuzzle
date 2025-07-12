@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class PuzzleSort 
 {
-    public int LevelId;
+    public int PuzzleSortID;
     public Vector2Int StartGroundPos;
     public Vector2Int EndGroundPos;
     public Vector2Int StartPuzzlePos;
