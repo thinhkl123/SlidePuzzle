@@ -20,6 +20,7 @@ public class BossLongController : SingletonMono<BossLongController>
             }
 
             posList.RemoveAt(posList.Count - 1);
+            length--;
 
             return;
         }
