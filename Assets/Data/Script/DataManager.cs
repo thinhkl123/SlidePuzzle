@@ -10,4 +10,5 @@ public class DataManager : SingletonMono<DataManager>
     public ItemSO ItemData;
     public BlockSO BlockData;
     public EnemyNotMoveSO EnemyNotMoveData;
+    public BossLongSO BossLongData;
 }

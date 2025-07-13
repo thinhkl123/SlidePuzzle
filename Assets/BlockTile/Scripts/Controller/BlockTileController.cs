@@ -33,7 +33,7 @@ public class BlockTileController : SingletonMono<BlockTileController>
             }
         }
 
-        Debug.Log(isComplete);
+        //Debug.Log(isComplete);
 
         if (!isComplete)
         {

@@ -16,4 +16,5 @@ public class LevelDetail
     public int ItemId;
     public int BlockId;
     public int EnemyNotMoveId;
+    public bool hasBossLong;
 }

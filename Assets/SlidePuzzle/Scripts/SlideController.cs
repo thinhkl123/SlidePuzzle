@@ -5,7 +5,6 @@ using CustomUtils;
 using UnityEngine.Tilemaps;
 using System;
 using DG.Tweening;
-using static Unity.Collections.AllocatorManager;
 
 public class SlideController : SingletonMono<SlideController> 
 {
@@ -13,6 +12,7 @@ public class SlideController : SingletonMono<SlideController>
     [SerializeField] private TileFake groudTileFakePrefab;
     [SerializeField] private TileFake itemTileFakePrefab;
     [SerializeField] private TileFake enemyNotMoveTileFakePrefab;
+    [SerializeField] private TileFake bossLongTileFakePrefab;
 
     [Header(" Player ")]
     [SerializeField] private Player playerPrefab;
@@ -22,10 +22,18 @@ public class SlideController : SingletonMono<SlideController>
     public Tilemap obstacleTilemap;
     public Tilemap itemTilemap;
     public Tilemap enemyNotMoveTilemap;
+    public Tilemap bossLongTilemap;
 
     private Player _player;
-    private bool canSlide;
+    public bool canSlide;
+    public bool isWaitMore;
     private int curLevelId;
+
+    //Level Data Variable
+    int itemId;
+    int enemyNotMoveId;
+    int blockId;
+    bool hasBossLong;
 
     private void Start()
     {
@@ -150,6 +158,9 @@ public class SlideController : SingletonMono<SlideController>
             return;
         }
 
+        canSlide = false;
+        isWaitMore = false;
+
         Vector3 pos = groundTilemap.GetCellCenterWorld(newPlayerGridPos);
 
         if (isTeleport)
@@ -164,11 +175,197 @@ public class SlideController : SingletonMono<SlideController>
         MoveGroundTile(cellMovePosList, direction);
 
         MoveItemTile(cellMovePosList, direction);
+
+        MoveBossLongTile(cellMovePosList, direction);
+
+        ResetCanSlide();
+    }
+
+    private void ResetCanSlide()
+    {
+        float time = 0.25f;
+        if (isWaitMore)
+        {
+            time += 0.25f;
+        }
+
+        Invoke(nameof(SetCanSlide), time);
+    }
+
+    private void SetCanSlide()
+    {
+        canSlide = true;
+    }
+
+    private void MoveBossLongTile(List<Vector2Int> cellsToSlide, Direction direction)
+    {
+        if (!hasBossLong)
+        {
+            return;
+        }
+
+        if (!cellsToSlide.Contains(BossLongController.Instance.posList[0]))
+        {
+            return;
+        }
+
+        //Spawn các tile động theo thứ tự cells
+        List<TileFake> clones = new List<TileFake>();
+        List<TileBase> tileOrder = new List<TileBase>();
+
+        for (int i = 0; i < BossLongController.Instance.posList.Count; i++)
+        {
+            Vector2Int cellPos = BossLongController.Instance.posList[i];
+            Vector3Int cell = new Vector3Int(cellPos.x, cellPos.y, 0);
+            TileBase tile = bossLongTilemap.GetTile(cell);
+
+            // Lưu thứ tự tile để xử lý logic wrap-around
+            tileOrder.Add(tile);
+
+            // Tạo GameObject clone để tween
+            TileFake obj = Instantiate(bossLongTileFakePrefab, bossLongTilemap.GetCellCenterWorld(cell), Quaternion.identity);
+            Sprite sprite = GetSpriteFromTile(tile);
+            if (sprite != null)
+                obj.SetSprite(sprite);
+
+            obj.gridPos = cellPos;
+            clones.Add(obj);
+
+            bossLongTilemap.SetTile(cell, null);
+        }
+
+        //Di chuyển các tile
+        int count = BossLongController.Instance.posList.Count;
+
+        Vector2Int newHeadPos = new Vector2Int(0, 0);
+
+        if (cellsToSlide.IndexOf(BossLongController.Instance.posList[0]) == 0)
+        {
+            TileFake wrapTile = clones[0];
+            Vector2Int wrapToGrid = cellsToSlide[count - 1]; newHeadPos = wrapToGrid;
+            Vector3 wrapToPos = bossLongTilemap.GetCellCenterWorld((Vector3Int)cellsToSlide[count - 1]);
+
+            // 1. Scale nhỏ dần để ẩn tile
+            wrapTile.transform.DOScale(Vector3.zero, 0.1f).SetEase(Ease.InBack).OnComplete(() =>
+            {
+                // 2. Di chuyển đến đầu hàng
+                wrapTile.transform.position = wrapToPos;
+                wrapTile.gridPos = wrapToGrid;
+
+                // 3. Scale lớn lên để hiện tile lại
+                wrapTile.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.OutBack);
+            });
+        }
+        else
+        {
+            Vector2Int toGrid = cellsToSlide[cellsToSlide.IndexOf(BossLongController.Instance.posList[0]) - 1];
+            newHeadPos = toGrid;
+            Vector3 worldPos = bossLongTilemap.GetCellCenterWorld(new Vector3Int(toGrid.x, toGrid.y, 0));
+
+            clones[0].MoveTo(toGrid, worldPos);
+        }
+
+        bool isDecrease = false;
+
+        if (count >= 2)
+        {
+            if (BossLongController.Instance.posList.Contains(newHeadPos))
+            {
+                clones[count - 1].transform.DOScale(Vector3.zero, 0.15f).SetEase(Ease.InBack);
+                isDecrease = true;
+            }
+            else
+            {
+                Vector2Int toGrid = BossLongController.Instance.posList[count - 2];
+                Vector3 worldPos = bossLongTilemap.GetCellCenterWorld(new Vector3Int(toGrid.x, toGrid.y, 0));
+
+                clones[count - 1].MoveTo(toGrid, worldPos);
+            }
+        }
+
+        if (!isDecrease)
+        {
+            for (int i = 1; i < count - 1; i++)
+            {
+                Vector2Int toGrid = BossLongController.Instance.posList[i - 1];
+                Vector3 worldPos = bossLongTilemap.GetCellCenterWorld(new Vector3Int(toGrid.x, toGrid.y, 0));
+
+                clones[i].MoveTo(toGrid, worldPos);
+            }
+
+            isWaitMore = true;
+        }
+        else
+        {
+            for (int i = 1; i < count - 1; i++)
+            {
+                Vector2Int toGrid = BossLongController.Instance.posList[i + 1];
+                Vector3 worldPos = bossLongTilemap.GetCellCenterWorld(new Vector3Int(toGrid.x, toGrid.y, 0));
+
+                clones[i].MoveTo(toGrid, worldPos);
+            }
+        }
+
+        //Bước 3: Sau khi tween xong → cập nhật lại Tilemap và xóa clone
+        DOVirtual.DelayedCall(0.25f, () =>
+        {
+            if (!isDecrease)
+            {
+                for (int i = 0; i < count - 1; i++)
+                {
+                    int fromIndex = (i + 1) % count;
+
+                    Vector2Int toCell = BossLongController.Instance.posList[i];
+                    bossLongTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
+                }
+            }
+            else
+            {
+                for (int i = 2; i < count; i++)
+                {
+                    int fromIndex = (i - 1) % count;
+
+                    Vector2Int toCell = BossLongController.Instance.posList[i];
+                    bossLongTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
+                }
+            }
+
+            //if (count >=2 && !isDecrease)
+            //{
+            //    int fromIndex = (count - 2 + 1) % count;
+
+            //    Vector2Int toCell = BossLongController.Instance.posList[count - 2];
+            //    bossLongTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
+            //}
+
+            bossLongTilemap.SetTile(new Vector3Int(newHeadPos.x, newHeadPos.y, 0), DataManager.Instance.BossLongData.headTile);
+            
+            BossLongController.Instance.UpdatePosList(newHeadPos, isDecrease);
+
+            foreach (var obj in clones)
+            {
+                if (obj != null)
+                    Destroy(obj.gameObject);
+            }
+        });
+    }
+
+    public void SpawnBossLongTile(TileBase tile, Vector3Int gridPos)
+    {
+        TileFake tileFake = Instantiate(bossLongTileFakePrefab, bossLongTilemap.GetCellCenterWorld(gridPos), Quaternion.identity);
+        tileFake.transform.localScale = Vector3.zero;
+        tileFake.SetSprite(GetSpriteFromTile(tile));
+        tileFake.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
+        DOVirtual.DelayedCall(0.25f, () =>
+        {
+            Destroy(tileFake.gameObject);
+            bossLongTilemap.SetTile(gridPos, tile);
+        });
     }
 
     private void MoveItemTile(List<Vector2Int> cellsToSlide, Direction direction)
     {
-        if (DataManager.Instance.LevelData.LevelDetails[curLevelId-1].ItemId == 0)
+        if (itemId == 0)
         {
             return;
         }
@@ -264,6 +461,45 @@ public class SlideController : SingletonMono<SlideController>
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
     {
+        if (hasBossLong)
+        {
+            if (BossLongController.Instance.posList.Contains(new Vector2Int(cellPlayer.x, cellPlayer.y)))
+            {
+                if (BossLongController.Instance.posList.IndexOf(new Vector2Int(cellPlayer.x, cellPlayer.y)) != 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    bool isDecrease = false;
+
+                    if (BossLongController.Instance.posList.Count >= 2)
+                    {
+                        Vector2Int newHeadPos = new Vector2Int(0, 0);
+
+                        if (cellMoveList.IndexOf(BossLongController.Instance.posList[0]) == 0)
+                        {
+                            newHeadPos = cellMoveList[BossLongController.Instance.posList.Count - 1];
+                        }
+                        else
+                        {
+                            newHeadPos = cellMoveList[cellMoveList.IndexOf(BossLongController.Instance.posList[0]) - 1];
+                        }
+
+                        if (BossLongController.Instance.posList.Contains(newHeadPos))
+                        {
+                            isDecrease = true;
+                        }
+                    }
+
+                    if (!isDecrease)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
         if (CheckItemCollideWithObstacle(cellMoveList))
         {
             return false;
@@ -308,8 +544,6 @@ public class SlideController : SingletonMono<SlideController>
 
     public void MoveGroundTile(List<Vector2Int> cellsToSlide, Direction direction)
     {
-        canSlide = false;
-
         //Spawn các tile động theo thứ tự cells
         List<TileFake> clones = new List<TileFake>();
         List<TileBase> tileOrder = new List<TileBase>();
@@ -373,8 +607,6 @@ public class SlideController : SingletonMono<SlideController>
 
             foreach (var obj in clones)
                 Destroy(obj.gameObject);
-
-            canSlide = true;
         });
     }
 
@@ -408,26 +640,36 @@ public class SlideController : SingletonMono<SlideController>
         SetItemTile();
         SetBlockTile();
         SetEnemyNotMoveTile();
+        InitBossLong();
         SpawnPlayer();
+    }
+
+    private void InitBossLong()
+    {
+        hasBossLong = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].hasBossLong;
+        if (hasBossLong)
+        {
+            BossLongController.Instance.Init(DataManager.Instance.BossLongData.InitBossPos);
+        }
     }
 
     private void SetBlockTile()
     {
-        int blockId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].BlockId;
+        blockId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].BlockId;
         if (blockId != 0)
             BlockTileController.Instance.SetBlockList(DataManager.Instance.BlockData.BlockDetails[blockId - 1].Blocks);
     }
 
     private void SetEnemyNotMoveTile()
     {
-        int enemyNotMoveId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].EnemyNotMoveId;
+        enemyNotMoveId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].EnemyNotMoveId;
         if (enemyNotMoveId != 0)
             EnemyNotMoveTileController.Instance.SetEnemyNotMovePosList(DataManager.Instance.EnemyNotMoveData.EnemyNotMoveDetails[enemyNotMoveId - 1].enemyNotMovePosList);
     }
 
     private void SetItemTile()
     {
-        int itemId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].ItemId;
+        itemId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].ItemId;
         if (itemId != 0)
             ItemTileController.Instance.SetWeaponPosList(DataManager.Instance.ItemData.ItemDetails[itemId - 1].WeaponPosList);
         if (itemId != 0)

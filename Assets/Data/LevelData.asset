@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelDetails:
   - LevelId: 1
-    PlayerPosition: {x: 16, y: -3}
-    ItemId: 1
-    BlockId: 1
-    EnemyNotMoveId: 1
+    PlayerPosition: {x: 1, y: 0}
+    ItemId: 0
+    BlockId: 0
+    EnemyNotMoveId: 0
+    hasBossLong: 1

@@ -1,0 +1,58 @@
+using UnityEngine;
+using CustomUtils;
+using System.Collections.Generic;
+using UnityEngine.Tilemaps;
+
+public class BossLongController : SingletonMono<BossLongController>
+{
+    public int length;
+    public List<Vector2Int> posList;
+    public int maxLength;
+    public int phase;
+
+    public void UpdatePosList(Vector2Int newHeadPos, bool isDecrease)
+    {
+        if (isDecrease)
+        {
+            for (int i = 0; i < posList.Count - 1; i++)
+            {
+                posList[i] = posList[i + 1];
+            }
+
+            posList.RemoveAt(posList.Count - 1);
+
+            return;
+        }
+
+        Vector2Int tailPos = posList[posList.Count - 1];
+
+        posList.RemoveAt(posList.Count - 1);
+
+        posList.Insert(0,newHeadPos);
+
+        if (!isDecrease)
+        {
+            if (length < maxLength - 1)
+            {
+                SlideController.Instance.SpawnBossLongTile(DataManager.Instance.BossLongData.bodyTile, new Vector3Int(tailPos.x, tailPos.y, 0));
+                posList.Add(tailPos);
+            }
+            else if (length == maxLength - 1)
+            {
+                SlideController.Instance.SpawnBossLongTile(DataManager.Instance.BossLongData.tailTile, new Vector3Int(tailPos.x, tailPos.y, 0));
+                posList.Add(tailPos);
+            }
+        } 
+    }
+
+    public void Init(Vector2Int initBossPos)
+    {
+        this.length = 1;
+        this.posList = new List<Vector2Int>
+        {
+            initBossPos
+        };
+        this.phase = 1;
+        this.maxLength = DataManager.Instance.BossLongData.lengthEachPhase[0];
+    }
+}
