@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeb41507a8a291c4f98466a5cb28ad73, type: 3}
-  m_Name: LevelData
+  m_Script: {fileID: 11500000, guid: f485e2ee285d258499514967f8e180b3, type: 3}
+  m_Name: WaterHuntBossData
   m_EditorClassIdentifier: 
-  LevelDetails:
-  - LevelId: 1
-    PlayerPosition: {x: -10, y: -1}
-    ItemId: 1
-    EnemyNotMoveId: 1
-    PuzzleSortId: 1
-    WaterHuntBossId: 1
+  WaterHuntBossList:
+  - WaterHuntBossId: 1
+    WaterHuntBossPos: {x: -5, y: 4}
+    WaterList:
+    - WaterPos: {x: -5, y: 2}
+    - WaterPos: {x: -10, y: -3}
+    - WaterPos: {x: -9, y: 0}

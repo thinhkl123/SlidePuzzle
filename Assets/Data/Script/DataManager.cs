@@ -10,4 +10,5 @@ public class DataManager : SingletonMono<DataManager>
     public ItemSO ItemData;
     public EnemyNotMoveSO EnemyNotMoveData;
     public PuzzleSortLevelSO PuzzleSortLevelData;
+    public WaterHuntBossSO WaterHuntBossData;
 }

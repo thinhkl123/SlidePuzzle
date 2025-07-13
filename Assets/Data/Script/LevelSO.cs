@@ -16,4 +16,5 @@ public class LevelDetail
     public int ItemId;
     public int EnemyNotMoveId;
     public int PuzzleSortId;
+    public int WaterHuntBossId;
 }

@@ -144,7 +144,7 @@ public class SlideController : SingletonMono<SlideController>
             newPlayerPos = _player.GetCurrentPos() + offset;
         }
         Vector3Int newPlayerGridPos = new Vector3Int(newPlayerPos.x, newPlayerPos.y, 0);
-        if (!CheckPlayerCanMove(newPlayerGridPos, cellMovePosList))
+        if (!CheckPlayerCanMove(newPlayerGridPos, cellMovePosList, direction))
         {
             _player.Shake();
             return;
@@ -268,7 +268,7 @@ public class SlideController : SingletonMono<SlideController>
         });
     }
 
-    private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList)
+    private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList, Direction direction = Direction.None)
     {
         // Vu Khoa
         bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
@@ -276,7 +276,6 @@ public class SlideController : SingletonMono<SlideController>
         {
             return false;
         }
-
         if (CheckItemCollideWithObstacle(cellMoveList))
         {
             return false;
@@ -292,6 +291,19 @@ public class SlideController : SingletonMono<SlideController>
             return false;
         }
 
+        // Viết ở cuối sau khi chắc chắn Player có thể di chuyển
+        if (WaterHuntBossController.Instance.Index >= 0)
+        {
+            if (new Vector2Int(cellPlayer.x, cellPlayer.y) ==
+                WaterHuntBossController.Instance.WaterHuntBossPos)
+            {
+                return false;
+            }
+            if (!WaterHuntBossController.Instance.CheckAndMoveWater(_player, cellMoveList, direction))
+            {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -396,6 +408,10 @@ public class SlideController : SingletonMono<SlideController>
                 return;
             }
             PuzzleSortController.Instance.CheckPortPos(_player);
+            if (WaterHuntBossController.Instance.CheckMoveForBoss(WaterHuntBossController.Instance.NewPosForBoss, _player))
+            {
+                WaterHuntBossController.Instance.MoveWaterHuntBoss();
+            }
         });
     }
 
@@ -427,6 +443,7 @@ public class SlideController : SingletonMono<SlideController>
     {
         curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
         this.SetPuzzleSort();
+        this.SetWaterHuntBoss();
         SetItemTile();
         SetEnemyNotMoveTile();
         SpawnPlayer();
@@ -436,6 +453,12 @@ public class SlideController : SingletonMono<SlideController>
     {
         int puzzleSortId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].PuzzleSortId;
         PuzzleSortController.Instance.SetPuzzleSort(puzzleSortId);
+    }
+
+    private void SetWaterHuntBoss()
+    {
+        int waterHuntBossId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].WaterHuntBossId;
+        WaterHuntBossController.Instance.SetWaterHuntBoss(waterHuntBossId);
     }
 
     private void SetEnemyNotMoveTile()
