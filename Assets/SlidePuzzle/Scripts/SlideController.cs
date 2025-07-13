@@ -264,7 +264,7 @@ public class SlideController : SingletonMono<SlideController>
             clones[0].MoveTo(toGrid, worldPos);
         }
 
-        if (BossLongController.Instance.posList.IndexOf(newHeadPos) == count - 1)
+        if (BossLongController.Instance.posList.IndexOf(newHeadPos) == count - 1 && BossLongController.Instance.IsFitLength())
         {
             Debug.Log("Next Phase");
             for (int i = 1; i < count; i++)

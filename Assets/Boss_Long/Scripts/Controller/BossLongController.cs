@@ -48,6 +48,11 @@ public class BossLongController : SingletonMono<BossLongController>
         } 
     }
 
+    public bool IsFitLength()
+    {
+        return length == maxLength;
+    }
+
     public void NextPhase(Vector2Int newHeadPos)
     {
         phase++;
