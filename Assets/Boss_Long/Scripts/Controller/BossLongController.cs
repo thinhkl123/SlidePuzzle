@@ -36,11 +36,13 @@ public class BossLongController : SingletonMono<BossLongController>
             {
                 SlideController.Instance.SpawnBossLongTile(DataManager.Instance.BossLongData.bodyTile, new Vector3Int(tailPos.x, tailPos.y, 0));
                 posList.Add(tailPos);
+                length++;
             }
             else if (length == maxLength - 1)
             {
                 SlideController.Instance.SpawnBossLongTile(DataManager.Instance.BossLongData.tailTile, new Vector3Int(tailPos.x, tailPos.y, 0));
                 posList.Add(tailPos);
+                length++;
             }
         } 
     }
