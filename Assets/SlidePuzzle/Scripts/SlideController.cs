@@ -241,8 +241,8 @@ public class SlideController : SingletonMono<SlideController>
         if (cellsToSlide.IndexOf(BossLongController.Instance.posList[0]) == 0)
         {
             TileFake wrapTile = clones[0];
-            Vector2Int wrapToGrid = cellsToSlide[count - 1]; newHeadPos = wrapToGrid;
-            Vector3 wrapToPos = bossLongTilemap.GetCellCenterWorld((Vector3Int)cellsToSlide[count - 1]);
+            Vector2Int wrapToGrid = cellsToSlide[cellsToSlide.Count - 1]; newHeadPos = wrapToGrid;
+            Vector3 wrapToPos = bossLongTilemap.GetCellCenterWorld((Vector3Int)cellsToSlide[cellsToSlide.Count - 1]);
 
             // 1. Scale nhỏ dần để ẩn tile
             wrapTile.transform.DOScale(Vector3.zero, 0.1f).SetEase(Ease.InBack).OnComplete(() =>
@@ -263,6 +263,8 @@ public class SlideController : SingletonMono<SlideController>
 
             clones[0].MoveTo(toGrid, worldPos);
         }
+
+        //Debug.Log(newHeadPos);
 
         if (BossLongController.Instance.posList.IndexOf(newHeadPos) == count - 1 && BossLongController.Instance.IsFitLength())
         {
@@ -655,7 +657,7 @@ public class SlideController : SingletonMono<SlideController>
         obj.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack);
     }
 
-    Sprite GetSpriteFromTile(TileBase tile)
+    public Sprite GetSpriteFromTile(TileBase tile)
     {
         if (tile is Tile t)
             return t.sprite;

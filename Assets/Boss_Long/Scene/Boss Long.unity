@@ -674,8 +674,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86670addbe59f745b4613b8b0b6fb39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileFakePrefab: {fileID: 5901420331145464749, guid: dbef5ee0b4f55c642a406ffa29508ce0, type: 3}
+  objList: []
   length: 0
   posList: []
+  maxLength: 0
+  phase: 0
 --- !u!4 &636749301
 Transform:
   m_ObjectHideFlags: 0
@@ -1990,6 +1994,8 @@ MonoBehaviour:
   itemTilemap: {fileID: 1220664963}
   enemyNotMoveTilemap: {fileID: 876537294}
   bossLongTilemap: {fileID: 251089256}
+  canSlide: 0
+  isWaitMore: 0
 --- !u!4 &1887864166
 Transform:
   m_ObjectHideFlags: 0

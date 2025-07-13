@@ -18,3 +18,6 @@ MonoBehaviour:
   headTile: {fileID: 11400000, guid: 139d849dd4268aa48933d9e25a3f47f1, type: 2}
   bodyTile: {fileID: 11400000, guid: 04906b1d6f53e564da2b3c5cd20d0f7a, type: 2}
   tailTile: {fileID: 11400000, guid: 1e9317a1e74829c45a3ca1e01653eead, type: 2}
+  headSprite: {fileID: -743793236, guid: cebd8135605ecbb4596fe141e7cc4817, type: 3}
+  bodySprite: {fileID: -900720355, guid: cebd8135605ecbb4596fe141e7cc4817, type: 3}
+  tailSprite: {fileID: -966079269, guid: c6ed8e99e10990f4c8e8011a3c603b39, type: 3}

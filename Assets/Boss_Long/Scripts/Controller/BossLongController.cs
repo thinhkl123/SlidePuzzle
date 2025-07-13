@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class BossLongController : SingletonMono<BossLongController>
 {
+    [SerializeField] private TileFake tileFakePrefab;
+    public List<TileFake> objList;
     public int length;
     public List<Vector2Int> posList;
     public int maxLength;
@@ -48,6 +50,12 @@ public class BossLongController : SingletonMono<BossLongController>
         } 
     }
 
+    public void Move(Vector2Int newHeadPos)
+    {
+        //Move Head
+
+    }
+
     public bool IsFitLength()
     {
         return length == maxLength;
@@ -79,5 +87,10 @@ public class BossLongController : SingletonMono<BossLongController>
         };
         this.phase = 1;
         this.maxLength = DataManager.Instance.BossLongData.lengthEachPhase[0];
+
+        Vector3Int initGridPos = new Vector3Int(initBossPos.x, initBossPos.y, 0);
+        //TileFake obj = Instantiate(tileFakePrefab, SlideController.Instance.bossLongTilemap.GetCellCenterWorld(initGridPos), Quaternion.identity);
+        //obj.SetSprite(DataManager.Instance.BossLongData.headSprite);
+        //objList.Add(obj);
     }
 }

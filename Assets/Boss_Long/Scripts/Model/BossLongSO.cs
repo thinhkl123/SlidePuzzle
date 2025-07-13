@@ -11,4 +11,7 @@ public class BossLongSO : ScriptableObject
     public TileBase headTile;
     public TileBase bodyTile;
     public TileBase tailTile;
+    public Sprite headSprite;
+    public Sprite bodySprite;
+    public Sprite tailSprite;
 }
