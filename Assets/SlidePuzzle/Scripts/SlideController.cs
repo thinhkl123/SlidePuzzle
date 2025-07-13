@@ -234,7 +234,6 @@ public class SlideController : SingletonMono<SlideController>
             bossLongTilemap.SetTile(cell, null);
         }
 
-        //Di chuyển các tile
         int count = BossLongController.Instance.posList.Count;
 
         Vector2Int newHeadPos = new Vector2Int(0, 0);
@@ -265,6 +264,31 @@ public class SlideController : SingletonMono<SlideController>
             clones[0].MoveTo(toGrid, worldPos);
         }
 
+        if (BossLongController.Instance.posList.IndexOf(newHeadPos) == count - 1)
+        {
+            Debug.Log("Next Phase");
+            for (int i = 1; i < count; i++)
+            {
+                clones[i].transform.DOScale(Vector3.zero, 0.15f).SetEase(Ease.InBack);
+            }
+            
+
+            DOVirtual.DelayedCall(0.25f, () =>
+            {
+                BossLongController.Instance.NextPhase(newHeadPos);
+
+                bossLongTilemap.SetTile(new Vector3Int(newHeadPos.x, newHeadPos.y, 0), DataManager.Instance.BossLongData.headTile);
+
+                foreach (var obj in clones)
+                {
+                    if (obj != null)
+                        Destroy(obj.gameObject);
+                }
+            });
+
+            return;
+        }
+
         bool isDecrease = false;
 
         if (count >= 2)
@@ -283,6 +307,7 @@ public class SlideController : SingletonMono<SlideController>
             }
         }
 
+        //Di chuyen cac tile
         if (!isDecrease)
         {
             for (int i = 1; i < count - 1; i++)
@@ -472,10 +497,10 @@ public class SlideController : SingletonMono<SlideController>
                 else
                 {
                     bool isDecrease = false;
+                    Vector2Int newHeadPos = new Vector2Int(0, 0);
 
                     if (BossLongController.Instance.posList.Count >= 2)
                     {
-                        Vector2Int newHeadPos = new Vector2Int(0, 0);
 
                         if (cellMoveList.IndexOf(BossLongController.Instance.posList[0]) == 0)
                         {
@@ -493,6 +518,11 @@ public class SlideController : SingletonMono<SlideController>
                     }
 
                     if (!isDecrease)
+                    {
+                        return false;
+                    }
+
+                    if (obstacleTilemap.HasTile(new Vector3Int(newHeadPos.x, newHeadPos.y, 0)))
                     {
                         return false;
                     }

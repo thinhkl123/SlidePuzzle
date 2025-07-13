@@ -48,6 +48,23 @@ public class BossLongController : SingletonMono<BossLongController>
         } 
     }
 
+    public void NextPhase(Vector2Int newHeadPos)
+    {
+        phase++;
+
+        if (phase >= DataManager.Instance.BossLongData.pahseCount)
+        {
+            Debug.Log("Win Boss Long");
+            return;
+        }
+
+        posList.Clear();
+        posList.Add(newHeadPos);
+
+        length = 1;        
+        maxLength = DataManager.Instance.BossLongData.lengthEachPhase[phase - 1];
+    }
+
     public void Init(Vector2Int initBossPos)
     {
         this.length = 1;
