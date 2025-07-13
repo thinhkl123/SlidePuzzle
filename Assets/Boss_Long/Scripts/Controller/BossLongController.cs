@@ -57,7 +57,7 @@ public class BossLongController : SingletonMono<BossLongController>
     {
         phase++;
 
-        if (phase >= DataManager.Instance.BossLongData.pahseCount)
+        if (phase > DataManager.Instance.BossLongData.pahseCount)
         {
             Debug.Log("Win Boss Long");
             return;
