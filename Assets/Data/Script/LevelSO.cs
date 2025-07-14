@@ -17,4 +17,5 @@ public class LevelDetail
     public int EnemyNotMoveId;
     public int PuzzleSortId;
     public int WaterHuntBossId;
+    public int LazeId;
 }

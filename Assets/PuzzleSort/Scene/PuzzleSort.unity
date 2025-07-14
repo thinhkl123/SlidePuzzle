@@ -820,6 +820,58 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &734552115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 734552117}
+  - component: {fileID: 734552116}
+  m_Layer: 0
+  m_Name: WaterHuntBossController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &734552116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734552115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a4534fbb59944cba186c7ac6ac928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WaterHuntBossPrefab: {fileID: 757331185082498129, guid: 561a08d6839ad8841b67dda65771a8e6, type: 3}
+  WaterHuntBossPos: {x: 0, y: 0}
+  Index: 0
+  TrapForWaterHuntTilemap: {fileID: 0}
+  WaterPrefab: {fileID: 6436786844781154844, guid: 67ddef66ce26933479ea688c13da1a5e, type: 3}
+  WaterPosList: []
+  CurWaterIndex: 0
+  NewPosForBoss: {x: -1, y: -1}
+--- !u!4 &734552117
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734552115}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &755274734
 GameObject:
   m_ObjectHideFlags: 0
@@ -3241,6 +3293,7 @@ MonoBehaviour:
   ItemData: {fileID: 11400000, guid: ee86da8c514fe0f4f9a4d3a686b0dcd4, type: 2}
   EnemyNotMoveData: {fileID: 11400000, guid: 9d304a80b152e6f449015d407330399d, type: 2}
   PuzzleSortLevelData: {fileID: 11400000, guid: 710bcf1a3d623e143a8afe5a03210576, type: 2}
+  WaterHuntBossData: {fileID: 0}
 --- !u!4 &1821516462
 Transform:
   m_ObjectHideFlags: 0
@@ -3505,3 +3558,4 @@ SceneRoots:
   - {fileID: 420887421}
   - {fileID: 905126866}
   - {fileID: 755274736}
+  - {fileID: 734552117}

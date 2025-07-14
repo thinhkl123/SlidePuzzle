@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using CustomUtils;
 
@@ -11,4 +9,5 @@ public class DataManager : SingletonMono<DataManager>
     public EnemyNotMoveSO EnemyNotMoveData;
     public PuzzleSortLevelSO PuzzleSortLevelData;
     public WaterHuntBossSO WaterHuntBossData;
+    public LazeSO LazeData;
 }

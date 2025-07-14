@@ -129,7 +129,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         if (!check) 
         { 
             this.NewPosForBoss = this.WaterPosList[this.CurWaterIndex];
-            return true; 
+            return true;
         }
         bool isTeleport = false;
         if (cellPosList[0] == waterPos)
