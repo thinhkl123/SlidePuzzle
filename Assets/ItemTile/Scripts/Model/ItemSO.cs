@@ -14,4 +14,5 @@ public class ItemDetail
 {
     public int ItemId;
     public List<Vector2Int> WeaponPosList;
+    public List<Vector2Int> KeyPosList;
 }

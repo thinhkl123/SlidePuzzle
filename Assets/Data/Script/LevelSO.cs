@@ -14,8 +14,10 @@ public class LevelDetail
     public int LevelId;
     public Vector2Int PlayerPosition;
     public int ItemId;
+    public int BlockId;
     public int EnemyNotMoveId;
     public int PuzzleSortId;
     public int WaterHuntBossId;
     public int LazeId;
+    public bool hasBossLong;
 }

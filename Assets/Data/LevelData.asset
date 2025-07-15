@@ -16,7 +16,9 @@ MonoBehaviour:
   - LevelId: 1
     PlayerPosition: {x: -8, y: 2}
     ItemId: 2
+    BlockId: 0
     EnemyNotMoveId: 1
     PuzzleSortId: 1
     WaterHuntBossId: 0
     LazeId: 1
+    hasBossLong: 0
