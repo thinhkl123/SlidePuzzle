@@ -586,12 +586,14 @@ public class SlideController : SingletonMono<SlideController>
         if (WaterHuntBossController.Instance.Index >= 0)
         {
             if (new Vector2Int(cellPlayer.x, cellPlayer.y) ==
-                WaterHuntBossController.Instance.WaterHuntBossPos)
+                WaterHuntBossController.Instance.WaterHuntBossPos &&
+                WaterHuntBossController.Instance.WaterHuntBoss.Health > 0)
             {
                 return false;
             }
             if (!WaterHuntBossController.Instance.CheckAndMoveWater(_player, cellMoveList, direction))
             {
+                Debug.Log("2");
                 return false;
             }
         }
@@ -615,6 +617,14 @@ public class SlideController : SingletonMono<SlideController>
                 if (obstacleTilemap.HasTile(cell))
                 {
                     return true;
+                }
+                // Vu khoa
+                foreach (Vector2Int pos2Laze in LazeController.Instance.LazePostList)
+                {
+                    if (pos2Laze == new Vector2Int(cell.x, cell.y))
+                    {
+                        return true;
+                    }
                 }
             }
         }
@@ -691,7 +701,9 @@ public class SlideController : SingletonMono<SlideController>
             canSlide = true;
 
             // Vu Khoa
-            if (WaterHuntBossController.Instance.CheckMoveForBoss(WaterHuntBossController.Instance.NewPosForBoss, _player))
+            if (WaterHuntBossController.Instance.CheckMoveForBoss(
+                WaterHuntBossController.Instance.NewPosForBoss, _player)
+                )
             {
                 WaterHuntBossController.Instance.MoveWaterHuntBoss();
             }
@@ -749,12 +761,13 @@ public class SlideController : SingletonMono<SlideController>
         SetEnemyNotMoveTile();
         InitBossLong();
         SpawnPlayer();
-        SetLaze();
+        this.SetLaze();
     }
 
     private void SetLaze()
     {
         int lazeId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].LazeId;
+        LazeController.Instance.pos2Player = _player.GetCurrentPos();
         LazeController.Instance.SetInitLaze(lazeId);
     }
 

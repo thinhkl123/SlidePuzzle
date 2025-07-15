@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36bb2174f697db4b8b88d41f0861de2, type: 3}
   m_Name: BossLongData
   m_EditorClassIdentifier: 
-  InitBossPos: {x: 0, y: -1}
+  InitBossPos: {x: 8, y: 14}
   pahseCount: 3
-  lengthEachPhase: 0f0000000600000008000000
+  lengthEachPhase: 040000000600000008000000
   headTile: {fileID: 11400000, guid: 139d849dd4268aa48933d9e25a3f47f1, type: 2}
   bodyTile: {fileID: 11400000, guid: 04906b1d6f53e564da2b3c5cd20d0f7a, type: 2}
   tailTile: {fileID: 11400000, guid: 1e9317a1e74829c45a3ca1e01653eead, type: 2}

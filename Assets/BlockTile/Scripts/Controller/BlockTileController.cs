@@ -8,7 +8,7 @@ public class BlockTileController : SingletonMono<BlockTileController>
     public List<Block> BlockList;
 
     public void SetBlockList(List<Block> BlockList)
-    { 
+    {
         this.BlockList = new List<Block>(BlockList); 
     }
 
@@ -33,7 +33,7 @@ public class BlockTileController : SingletonMono<BlockTileController>
             }
         }
 
-        //Debug.Log(isComplete);
+        Debug.Log(isComplete);
 
         if (!isComplete)
         {

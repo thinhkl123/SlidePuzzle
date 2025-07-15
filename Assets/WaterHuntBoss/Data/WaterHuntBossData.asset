@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaterHuntBossList:
   - WaterHuntBossId: 1
-    WaterHuntBossPos: {x: -5, y: 4}
+    WaterHuntBossPos: {x: -24, y: 10}
     WaterList:
-    - WaterPos: {x: -5, y: 2}
-    - WaterPos: {x: -10, y: -3}
-    - WaterPos: {x: -9, y: 0}
+    - WaterPos: {x: -24, y: 7}
+    - WaterPos: {x: -29, y: 3}
+    - WaterPos: {x: -28, y: 6}

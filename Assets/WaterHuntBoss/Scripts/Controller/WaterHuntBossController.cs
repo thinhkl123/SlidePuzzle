@@ -8,7 +8,8 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
 {
     [Header("Water Hunt Boss")]
     public WaterHuntBossView WaterHuntBossPrefab;
-    public Vector2Int WaterHuntBossPos;
+    public Vector2Int WaterHuntBossPos; 
+    public WaterHuntBossModel WaterHuntBoss;
     public int Index = -1;
 
     [Header(" Trap ")] 
@@ -20,7 +21,6 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public int CurWaterIndex;
 
     private GameObject _curWater;
-    private WaterHuntBossModel _waterHuntBoss;
     private WaterHuntBossSO _waterHuntBossData;
 
     public Vector2Int NewPosForBoss = new Vector2Int(-1, -1);
@@ -53,8 +53,8 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         Vector3Int initWaterHuntBossPos = new Vector3Int(WaterHuntBossPos.x, WaterHuntBossPos.y, 0);
         Tilemap groundTilemap = SlideController.Instance.groundTilemap;
         WaterHuntBossView waterHuntBossView = Instantiate(WaterHuntBossPrefab, groundTilemap.CellToWorld(initWaterHuntBossPos) + groundTilemap.cellSize / 2, Quaternion.identity);
-        _waterHuntBoss = new WaterHuntBossModel();
-        _waterHuntBoss.SetView(waterHuntBossView);
+        WaterHuntBoss = new WaterHuntBossModel();
+        WaterHuntBoss.SetView(waterHuntBossView);
     }
 
     private void SpawnWater()
@@ -165,7 +165,8 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public bool CheckCanMoveWater(Vector3Int newPos)
     {
         Vector2Int newWaterPos = new Vector2Int(newPos.x, newPos.y);
-        if (SlideController.Instance.obstacleTilemap.HasTile(newPos) || newWaterPos == WaterHuntBossPos)
+        if (SlideController.Instance.obstacleTilemap.HasTile(newPos) || 
+            (newWaterPos == WaterHuntBossPos && WaterHuntBoss.Health > 0))
         {
             return false;
         }
@@ -174,6 +175,11 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
 
     public bool CheckMoveForBoss(Vector2Int waterPos, Player player)
     {
+        if (this.Index < 0 || this.WaterHuntBoss.Health <=0)         
+        {
+            return false;
+        }
+
         Vector2Int offset = new Vector2Int(0, 0);
         offset = new Vector2Int(-1, 0);
         if (waterPos == player.GetCurrentPos()) return false;
@@ -204,14 +210,14 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     {
         this.WaterHuntBossPos = this.NewPosForBoss;
         Vector3Int posCheckTrap = new Vector3Int(WaterHuntBossPos.x, WaterHuntBossPos.y, 0);
-        this._waterHuntBoss.WaterHuntBossView.Move(this.WaterHuntBossPos);
+        this.WaterHuntBoss.WaterHuntBossView.Move(this.WaterHuntBossPos);
         if (this.TrapForWaterHuntTilemap.HasTile(posCheckTrap))
         {
             this.TrapForWaterHuntTilemap.SetTile(posCheckTrap, null);
-            this._waterHuntBoss.TakeDamage(1);
+            this.WaterHuntBoss.TakeDamage(1);
         }
         
-        if (_waterHuntBoss.Health > 0 && 
+        if (WaterHuntBoss.Health > 0 && 
             WaterHuntBossPos == this.WaterPosList[this.CurWaterIndex])
         {
             this.HideWater();

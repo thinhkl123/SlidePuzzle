@@ -16,8 +16,8 @@ public class LazeController : SingletonMono<LazeController>
     private Tile _lockTile;
 
     [Header(" Get Data ")]
+    public List<Vector2Int> LazePostList;
     private LazeSO _lazeData;
-    private List<Vector2Int> _lazePostList;
     private List<Direction> _lazeDirectionList;
     private List<Vector2Int> _lazeLockPosition;
 
@@ -35,7 +35,7 @@ public class LazeController : SingletonMono<LazeController>
         this.Index = index - 1;
 
         this._lazeData = DataManager.Instance.LazeData;
-        this._lazePostList = new List<Vector2Int>();
+        this.LazePostList = new List<Vector2Int>();
         this._lazeDirectionList = new List<Direction>();
         this._lazeLockPosition = new List<Vector2Int>();
 
@@ -46,13 +46,13 @@ public class LazeController : SingletonMono<LazeController>
         
         foreach (var laze in this._lazeData.ListLazeLevel[Index].LazeList)
         {
-            this._lazePostList.Add(laze.Position);
+            this.LazePostList.Add(laze.Position);
             this._lazeDirectionList.Add(laze.Direction);
             this._lazeLockPosition.Add(laze.LockPosition);
         }
 
         this._listLight = new List<List<Vector3Int>>();
-        for (int i = 0; i < this._lazePostList.Count; ++i)
+        for (int i = 0; i < this.LazePostList.Count; ++i)
         {
             this._listLight.Add(new List<Vector3Int>());
         }
@@ -61,14 +61,14 @@ public class LazeController : SingletonMono<LazeController>
 
     public void SetLazes()
     {
-
+        // Null Lights
         this.SetNullLights();
 
         // Set Lock
         this._lazeLockPosTmp = new List<Vector3Int>();
         for (int i = 0; i < this._lazeDirectionList.Count; ++i)
         {
-            Vector2Int pos2 = this._lazePostList[i];
+            Vector2Int pos2 = this.LazePostList[i];
             Direction direction = this._lazeDirectionList[i];
             Vector2Int offset = new Vector2Int(0, 0);
 
@@ -94,7 +94,7 @@ public class LazeController : SingletonMono<LazeController>
         // Set Laze
         for (int i = 0; i < this._lazeDirectionList.Count; ++i)
         {
-            Vector2Int pos2 = this._lazePostList[i];
+            Vector2Int pos2 = this.LazePostList[i];
             Direction direction = this._lazeDirectionList[i];
             Vector2Int offset = new Vector2Int(0, 0);
             switch (direction)
@@ -131,7 +131,7 @@ public class LazeController : SingletonMono<LazeController>
         {
             pos2 += offset;
             pos3 = new Vector3Int(pos2.x, pos2.y, 0);
-            if (!CheckLaze(pos3, index) || this._lazePostList.Contains(pos2))
+            if (!CheckLaze(pos3, index) || this.LazePostList.Contains(pos2))
             {
                 return listLight;
             }
@@ -209,7 +209,7 @@ public class LazeController : SingletonMono<LazeController>
         {
             return true;
         }
-        foreach (Vector2Int pos2 in this._lazePostList)
+        foreach (Vector2Int pos2 in this.LazePostList)
         {
             Vector3Int pos3 = new Vector3Int(pos2.x, pos2.y, 0);
             if (posPlayer == pos3)
