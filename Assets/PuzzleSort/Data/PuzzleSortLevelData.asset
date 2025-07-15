@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PuzzleSortLevelData
   m_EditorClassIdentifier: 
   ListPuzzleSortData:
-  - LevelId: 1
+  - PuzzleSortID: 0
     StartGroundPos: {x: -1, y: -1}
     EndGroundPos: {x: 1, y: 1}
     StartPuzzlePos: {x: -1, y: 3}
     PlayerStartPos: {x: 0, y: -1}
     PortStartPos: {x: 0, y: -3}
-    PortEndPos: {x: 2, y: -6}
+    PortEndPos: {x: 5, y: -3}

@@ -151,6 +151,12 @@ public class SlideController : SingletonMono<SlideController>
         }
 
         Vector3 pos = groundTilemap.GetCellCenterWorld(newPlayerGridPos);
+        
+        if (LazeController.Instance.Index >= 0)
+        {
+            LazeController.Instance.pos2Player = newPlayerPos; 
+            //LazeController.Instance.SetLazes();
+        }
 
         if (isTeleport)
         {
@@ -162,12 +168,7 @@ public class SlideController : SingletonMono<SlideController>
         }
 
         MoveItemTile(cellMovePosList, direction);
-        
-        if (LazeController.Instance.Index >= 0)
-        {
-            LazeController.Instance.SetLazes(_player);
-        }
-        
+
         // Vu Khoa
         if (inPuzzleSort)
         {
@@ -265,6 +266,16 @@ public class SlideController : SingletonMono<SlideController>
                 ItemTileController.Instance.UpdateItemPosList(cellsToSlide[fromIndex], toCell); //Update Item Pos List
                 itemTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
             }
+
+            //foreach (Vector2Int pos2 in ItemTileController.Instance.weaponPosList)
+            //{
+            //    Vector3Int pos3 = new Vector3Int(pos2.x, pos2.y, 0);
+            //    if (LazeController.Instance.LazeTilemap.HasTile(pos3))
+            //    {
+            //        LazeController.Instance.SetLazes();
+            //        break;
+            //    }
+            //}
 
             foreach (var obj in clones)
             {
@@ -418,10 +429,16 @@ public class SlideController : SingletonMono<SlideController>
                 WaterHuntBossController.Instance.MoveWaterHuntBoss();
             }
 
+            if (LazeController.Instance.Index >= 0)
+            {
+                LazeController.Instance.SetLazes();
+            }
+
             if (PuzzleSortController.Instance.Index < 0)
             {
                 return;
             }
+
             if (inPuzzleSort)
             {
                 PuzzleSortController.Instance.CheckResult(_player);
@@ -469,7 +486,7 @@ public class SlideController : SingletonMono<SlideController>
     private void SetLaze()
     {
         int lazeId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].LazeId;
-        LazeController.Instance.SetLaze(lazeId, _player);
+        LazeController.Instance.SetInitLaze(lazeId);
     }
 
     private void SetPuzzleSort()
