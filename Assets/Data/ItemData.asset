@@ -15,6 +15,28 @@ MonoBehaviour:
   ItemDetails:
   - ItemId: 1
     WeaponPosList:
+    - {x: -3, y: 1}
+    - {x: -4, y: 0}
+    - {x: -8, y: 1}
+    - {x: -7, y: 0}
+    - {x: -8, y: 9}
+    - {x: -9, y: 9}
+    - {x: -8, y: 10}
+    - {x: -8, y: 13}
+    - {x: -3, y: 9}
+    KeyPosList:
+    - {x: 16, y: 12}
+  - ItemId: 1
+    WeaponPosList:
+    - {x: 19, y: 2}
+    - {x: 18, y: 7}
+    - {x: 21, y: 9}
+    - {x: 25, y: 35}
+    - {x: 25, y: 34}
+    - {x: 25, y: 33}
+    KeyPosList: []
+  - ItemId: 1
+    WeaponPosList:
     - {x: -4, y: -6}
     - {x: 1, y: -4}
     - {x: 4, y: 5}

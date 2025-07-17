@@ -1,4 +1,5 @@
 ﻿using CustomUtils;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -14,9 +15,10 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
         this.Index = puzzleSortId - 1;
         if (this.Index < 0) return;
 
-        this._puzzleSize =  DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[Index].EndGroundPos -
+        Vector2Int puzzleSideTmp =  DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[Index].EndGroundPos -
                             DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[Index].StartGroundPos +
                             Vector2Int.one;
+        this._puzzleSize = new Vector2Int(puzzleSideTmp.y, puzzleSideTmp.x);
         this._result = new List<List<int>>();
 
         for (int i = 0; i < _puzzleSize.x; i++)
@@ -27,12 +29,13 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
                 this._result[i].Add(i * _puzzleSize.y + j);
             }
         }
-        //this.Shuffle();
+        this.Shuffle();
     }
 
     // Không quan trọng, sau tự design map.
     private void Shuffle()
     {
+        Debug.Log(_puzzleSize);
         for (int i = 0; i < _puzzleSize.x; i++)
         {
             for (int j = 0; j < _puzzleSize.y; j++)
@@ -83,12 +86,58 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
         puzzlePos2 += offset;
 
         // Swap Tiles
-        this.SwapTiles(puzzlePos1, puzzlePos2);
+        this.SwapTilesEffect(puzzlePos1, puzzlePos2);
 
         // Swap result
         puzzlePos1 = puzzlePos1 - DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[Index].StartPuzzlePos;
         puzzlePos2 = puzzlePos2 - DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[Index].StartPuzzlePos;
         this.SwapResult(new Vector2Int(puzzlePos1.y, puzzlePos1.x), new Vector2Int(puzzlePos2.y, puzzlePos2.x));
+    }
+
+    private void SwapTilesEffect(Vector2Int fromPos, Vector2Int toPos)
+    {
+        Vector3Int tilePosFrom = new Vector3Int(fromPos.x, fromPos.y, 0);
+        Vector3Int tilePosTo = new Vector3Int(toPos.x, toPos.y, 0);
+
+        Tilemap puzzleSortTilemap = SlideController.Instance.puzzleSortTilemap;
+        TileBase tileFrom = puzzleSortTilemap.GetTile(tilePosFrom);
+        TileBase tileTo = puzzleSortTilemap.GetTile(tilePosTo);
+
+        Vector3 worldPosFrom = puzzleSortTilemap.GetCellCenterWorld(tilePosFrom);
+        Vector3 worldPosTo = puzzleSortTilemap.GetCellCenterWorld(tilePosTo);
+
+        GameObject goFrom = CreateTileOnject(tileFrom, worldPosFrom);
+        GameObject goTo = CreateTileOnject(tileTo, worldPosTo);
+
+        puzzleSortTilemap.SetTile(tilePosFrom, null);
+        puzzleSortTilemap.SetTile(tilePosTo, null);
+
+        Sequence seq = DOTween.Sequence();
+
+        seq.Join(goFrom.transform.DOMove(worldPosTo, 0.1f).SetEase(Ease.InOutSine));
+        seq.Join(goTo.transform.DOMove(worldPosFrom, 0.1f).SetEase(Ease.InOutSine));
+        
+        seq.OnComplete(() =>
+        {
+            goFrom.transform.DOScale(1.3f, 0.13f).SetEase(Ease.OutCubic).OnComplete(() =>
+            {
+                puzzleSortTilemap.SetTile(tilePosFrom, tileTo);
+                puzzleSortTilemap.SetTile(tilePosTo, tileFrom);
+                Destroy(goFrom);
+                Destroy(goTo);
+            });
+            
+        });
+    }
+
+    private GameObject CreateTileOnject(TileBase tile, Vector3 position)
+    {
+        GameObject go = new GameObject("TileEffectForPuzzleSort");
+        SpriteRenderer sR = go.AddComponent<SpriteRenderer>();
+        sR.sprite = (tile as Tile).sprite;
+        sR.sortingOrder = 100;
+        go.transform.position = position;
+        return go;
     }
 
     private void SwapTiles(Vector2Int fromPos, Vector2Int toPos)
@@ -103,6 +152,8 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
         puzzleSortTilemap.SetTile(tilePosFrom, tileTo);
         puzzleSortTilemap.SetTile(tilePosTo, tileFrom);
     }
+
+
     private void SwapResult(Vector2Int pos1, Vector2Int pos2)
     {
         int temp = this._result[pos1.x][pos1.y];
