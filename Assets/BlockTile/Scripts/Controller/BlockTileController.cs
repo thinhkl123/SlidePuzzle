@@ -24,12 +24,24 @@ public class BlockTileController : SingletonMono<BlockTileController>
     {
         bool isComplete = true;
 
-        foreach (Vector2Int blockPos in block.BlockPosList)
+        //foreach (Vector2Int blockPos in block.BlockPosList)
+        for (int i = 0; i < block.BlockPosList.Count; i++)
         {
+            Vector2Int blockPos = block.BlockPosList[i];
+
             if (!ItemTileController.Instance.keyPosList.Contains(blockPos))
             {
                 isComplete = false; 
                 break;
+            } 
+            else 
+            {
+                int index = ItemTileController.Instance.keyPosList.IndexOf(blockPos);
+                if (ItemTileController.Instance.keyTypeList[index] != block.keyTypeList[i])
+                {
+                    isComplete = false; 
+                    break;
+                }
             }
         }
 
@@ -37,7 +49,7 @@ public class BlockTileController : SingletonMono<BlockTileController>
 
         if (!isComplete)
         {
-            for (int i = 0; i < block.numOfBlocks; i++)
+            for (int i = 0; i < block.groundPosList.Count; i++)
             {
                 Vector2Int groundPos = block.groundPosList[i];
                 Vector3Int groundGridPos = new Vector3Int(groundPos.x, groundPos.y, 0);
@@ -47,12 +59,12 @@ public class BlockTileController : SingletonMono<BlockTileController>
         }
         else
         {
-            for (int i = 0; i < block.numOfBlocks; i++)
+            for (int i = 0; i < block.groundPosList.Count; i++)
             {
                 Vector2Int groundPos = block.groundPosList[i];
                 Vector3Int groundGridPos = new Vector3Int(groundPos.x, groundPos.y, 0);
 
-                SlideController.Instance.groundTilemap.SetTile(groundGridPos, block.groundTileList[i]);
+                SlideController.Instance.groundTilemap.SetTile(groundGridPos, block.groundTileList[0]);
             }
         }
     }

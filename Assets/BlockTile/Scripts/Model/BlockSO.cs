@@ -22,5 +22,6 @@ public class Block
     public int numOfBlocks;
     public List<Vector2Int> BlockPosList;
     public List<Vector2Int> groundPosList;
+    public List<KeyType> keyTypeList;
     public List<TileBase> groundTileList;
 }

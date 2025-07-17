@@ -31,3 +31,12 @@ MonoBehaviour:
     WaterHuntBossId: 1
     LazeId: 1
     hasBossLong: 1
+  - LevelId: 1
+    PlayerPosition: {x: 4, y: 2}
+    ItemId: 6
+    BlockId: 3
+    EnemyNotMoveId: 0
+    PuzzleSortId: 0
+    WaterHuntBossId: 0
+    LazeId: 0
+    hasBossLong: 0

@@ -813,6 +813,8 @@ public class SlideController : SingletonMono<SlideController>
             ItemTileController.Instance.SetWeaponPosList(DataManager.Instance.ItemData.ItemDetails[itemId - 1].WeaponPosList);
         if (itemId != 0)
             ItemTileController.Instance.SetKeyPosList(DataManager.Instance.ItemData.ItemDetails[itemId-1].KeyPosList);
+        if (itemId != 0)
+            ItemTileController.Instance.SetKeyTypeList(DataManager.Instance.ItemData.ItemDetails[itemId - 1].KeyTypeList);
     }
 
     private void SpawnPlayer()

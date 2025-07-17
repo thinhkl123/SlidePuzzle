@@ -15,4 +15,14 @@ public class ItemDetail
     public int ItemId;
     public List<Vector2Int> WeaponPosList;
     public List<Vector2Int> KeyPosList;
+    public List<KeyType> KeyTypeList;
+}
+
+[Serializable]
+public enum KeyType
+{
+    None = 0,
+    Recyle = 1,
+    Organic = 2,
+    Poision = 3,
 }
