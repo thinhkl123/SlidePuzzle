@@ -31,4 +31,4 @@ MonoBehaviour:
       LockPosition: {x: -2, y: 2}
     - Position: {x: -9, y: -3}
       Direction: 2
-      LockPosition: {x: -2, y: 2}
+      LockPosition: {x: -3, y: 1}
