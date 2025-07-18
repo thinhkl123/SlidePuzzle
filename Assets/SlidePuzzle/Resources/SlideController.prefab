@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3565843453253723628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4085514250157843705}
+  - component: {fileID: 6307271858666690831}
+  m_Layer: 0
+  m_Name: SlideController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4085514250157843705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3565843453253723628}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6307271858666690831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3565843453253723628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eded10b12dfc74543895cd80fcb3322b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groudTileFakePrefab: {fileID: 5901420331145464749, guid: 555ab444c585ab141ac9c80170511fd3, type: 3}
+  itemTileFakePrefab: {fileID: 5901420331145464749, guid: 1d85707e48d896748a50ce29b152b06e, type: 3}
+  enemyNotMoveTileFakePrefab: {fileID: 5901420331145464749, guid: f2096079085decb46a11307e8d0ac376, type: 3}
+  bossLongTileFakePrefab: {fileID: 5901420331145464749, guid: dbef5ee0b4f55c642a406ffa29508ce0, type: 3}
+  playerPrefab: {fileID: 2165942121257486253, guid: 5fec3d4a25f004b438e87b2e436fc08e, type: 3}
+  groundTilemap: {fileID: 0}
+  obstacleTilemap: {fileID: 0}
+  puzzleSortTilemap: {fileID: 0}
+  itemTilemap: {fileID: 0}
+  enemyNotMoveTilemap: {fileID: 0}
+  enemyTilemap: {fileID: 0}
+  lazeTilemap: {fileID: 0}
+  bossLongTilemap: {fileID: 0}
+  trapForWaterHuntTilemap: {fileID: 0}
+  blockTilemap: {fileID: 0}
+  canSlide: 0
+  isWaitMore: 0

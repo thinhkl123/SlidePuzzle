@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using CustomUtils;
 
-public class CameraFollower : MonoBehaviour
+public class CameraFollower : SingletonMono<CameraFollower>
 {
-    [SerializeField] private Transform target;
+    public Transform target;
     [SerializeField] private float smooth;
 
     private Vector3 distance;
     private bool canFollow = false;
-
-    private void Awake()
-    {
-        //distance = target.position - transform.position;
-    }
 
     private void Start()
     {
@@ -23,12 +19,10 @@ public class CameraFollower : MonoBehaviour
 
     void Update()
     {
-        if (target == null)
+        if (target != null)
         {
-            target = GameObject.Find("Player(Clone)").transform;
+            Follow();
         }
-
-        Follow();
 
     }
 

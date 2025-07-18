@@ -23,8 +23,11 @@ public class SlideController : SingletonMono<SlideController>
     public Tilemap puzzleSortTilemap;
     public Tilemap itemTilemap;
     public Tilemap enemyNotMoveTilemap;
+    public Tilemap enemyTilemap;
     public Tilemap lazeTilemap;
     public Tilemap bossLongTilemap;
+    public Tilemap trapForWaterHuntTilemap;
+    public Tilemap blockTilemap;
 
     private Player _player;
     public bool canSlide;
@@ -42,25 +45,30 @@ public class SlideController : SingletonMono<SlideController>
 
     private void Start()
     {
-        SpawnLevel();
+        //SpawnLevel();
         canSlide = true;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) 
+        if (GameManager.Instance.State != GameState.Playing)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) 
         {
             Slide(Direction.Left);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             Slide(Direction.Right);
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             Slide(Direction.Up);
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             Slide(Direction.Down);
         }
@@ -507,7 +515,12 @@ public class SlideController : SingletonMono<SlideController>
 
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList, Direction direction = Direction.None)
     {
-        // Vu Khoa
+        if (blockTilemap.HasTile(cellPlayer))
+        {
+            return false;
+        }
+
+        // Vu Khoa 2 con meo
         if (puzzleSortId > 0)
         {
             bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
@@ -755,9 +768,11 @@ public class SlideController : SingletonMono<SlideController>
         return null;
     }
 
-    private void SpawnLevel()
+    public void SpawnLevel()
     {
-        curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        //curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        curLevelId = 3;
+        CreateGridPrefab();
         this.SetPuzzleSort();
         this.SetWaterHuntBoss();
         SetItemTile();
@@ -766,6 +781,48 @@ public class SlideController : SingletonMono<SlideController>
         InitBossLong();
         SpawnPlayer();
         this.SetLaze();
+    }
+
+    private void CreateGridPrefab()
+    {
+        GameObject gridGO = Instantiate(Resources.Load<GameObject>("Level " + curLevelId.ToString()));
+        for (int i =0; i < gridGO.transform.childCount; i++)
+        {
+            Transform c = gridGO.transform.GetChild(i);
+            switch (c.gameObject.name)
+            {
+                case "Ground":
+                    this.groundTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "Obstacle":
+                    this.obstacleTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "PuzzleSort":
+                    this.puzzleSortTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "Laze":
+                    this.lazeTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "Item":
+                    this.itemTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "EnemyNotMove":
+                    this.enemyNotMoveTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "Enemy":
+                    this.enemyTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "BossLong":
+                    this.bossLongTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "TrapForWaterHunt":
+                    this.trapForWaterHuntTilemap = c.GetComponent<Tilemap>();
+                    break;
+                case "Block":
+                    this.blockTilemap = c.GetComponent<Tilemap>();
+                    break;
+            }
+        }
     }
 
     private void SetLaze()
@@ -838,6 +895,7 @@ public class SlideController : SingletonMono<SlideController>
         Vector3Int initPlayerPos = new Vector3Int(pp.x, pp.y, 0);
         _player = Instantiate(playerPrefab, groundTilemap.CellToWorld(initPlayerPos) + groundTilemap.cellSize / 2, Quaternion.identity);
         _player.SetCurrentPos(pp);
+        CameraFollower.Instance.target = _player.transform;
     }
 
     //public Vector3 CellToWorld(Vector2Int gridPos)

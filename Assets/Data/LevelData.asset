@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: LevelData
   m_EditorClassIdentifier: 
   LevelDetails:
+  - LevelId: 1
+    PlayerPosition: {x: 1, y: -5}
+    ItemId: 1
+    BlockId: 0
+    EnemyNotMoveId: 0
+    PuzzleSortId: 1
+    WaterHuntBossId: 0
+    LazeId: 0
+    hasBossLong: 0
   - LevelId: 2
     PlayerPosition: {x: -16, y: -26}
     ItemId: 3
@@ -22,12 +31,12 @@ MonoBehaviour:
     WaterHuntBossId: 1
     LazeId: 1
     hasBossLong: 0
-  - LevelId: 1
-    PlayerPosition: {x: 1, y: -5}
-    ItemId: 1
+  - LevelId: 3
+    PlayerPosition: {x: -16, y: -26}
+    ItemId: 3
     BlockId: 0
     EnemyNotMoveId: 0
-    PuzzleSortId: 1
-    WaterHuntBossId: 0
-    LazeId: 0
+    PuzzleSortId: 0
+    WaterHuntBossId: 1
+    LazeId: 1
     hasBossLong: 0
