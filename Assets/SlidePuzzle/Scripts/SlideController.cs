@@ -36,6 +36,9 @@ public class SlideController : SingletonMono<SlideController>
     int enemyNotMoveId;
     int blockId;
     bool hasBossLong;
+    int puzzleSortId;
+    int waterHuntBossId;
+    int lazeId;
 
     private void Start()
     {
@@ -78,7 +81,7 @@ public class SlideController : SingletonMono<SlideController>
         {
             dir1 = new Vector2Int(-1, 0);
             dir2 = new Vector2Int(1, 0);
-        } 
+        }
         else if (direction == Direction.Up || direction == Direction.Down)
         {
             dir1 = new Vector2Int(0, -1);
@@ -140,7 +143,12 @@ public class SlideController : SingletonMono<SlideController>
                 break;
         }
         // Vu Khoa
-        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
+        bool inPuzzleSort = false;
+        if (puzzleSortId > 0)
+        {
+           inPuzzleSort  = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
+        }
+
         Vector2Int newPlayerPos = new Vector2Int(0, 0);
         bool isTeleport = false;
         if (cellMovePosList[0] == _player.GetCurrentPos())
@@ -164,10 +172,9 @@ public class SlideController : SingletonMono<SlideController>
 
         Vector3 pos = groundTilemap.GetCellCenterWorld(newPlayerGridPos);
         
-        if (LazeController.Instance.Index >= 0)
+        if (lazeId > 0)
         {
-            LazeController.Instance.pos2Player = newPlayerPos; 
-            //LazeController.Instance.SetLazes();
+            LazeController.Instance.pos2Player = newPlayerPos;
         }
 
         if (isTeleport)
@@ -181,15 +188,16 @@ public class SlideController : SingletonMono<SlideController>
 
         MoveItemTile(cellMovePosList, direction);
         // Vu Khoa
-        if (inPuzzleSort)
+        if (puzzleSortId > 0 && inPuzzleSort)
         {
             MoveGroundTile(cellMovePosList, direction, true);
             PuzzleSortController.Instance.MovePuzzleSortTile(_player, offset, puzzleSortTilemap);
+            MoveBossLongTile(cellMovePosList, direction);
+            ResetCanSlide();
             return;
         }
         MoveGroundTile(cellMovePosList, direction);
         MoveBossLongTile(cellMovePosList, direction);
-
         ResetCanSlide();
     }
 
@@ -489,16 +497,6 @@ public class SlideController : SingletonMono<SlideController>
                 itemTilemap.SetTile(new Vector3Int(toCell.x, toCell.y, 0), tileOrder[fromIndex]);
             }
 
-            //foreach (Vector2Int pos2 in ItemTileController.Instance.weaponPosList)
-            //{
-            //    Vector3Int pos3 = new Vector3Int(pos2.x, pos2.y, 0);
-            //    if (LazeController.Instance.LazeTilemap.HasTile(pos3))
-            //    {
-            //        LazeController.Instance.SetLazes();
-            //        break;
-            //    }
-            //}
-
             foreach (var obj in clones)
             {
                 if (obj != null)
@@ -510,11 +508,15 @@ public class SlideController : SingletonMono<SlideController>
     private bool CheckPlayerCanMove(Vector3Int cellPlayer, List<Vector2Int> cellMoveList, Direction direction = Direction.None)
     {
         // Vu Khoa
-        bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
-        if (cellMoveList[0] == _player.GetCurrentPos() && inPuzzleSort)
+        if (puzzleSortId > 0)
         {
-            return false;
+            bool inPuzzleSort = PuzzleSortController.Instance.CheckPlayerInPuzzleSort(_player);
+            if (cellMoveList[0] == _player.GetCurrentPos() && inPuzzleSort)
+            {
+                return false;
+            }
         }
+        
         if (hasBossLong)
         {
             bool isDecrease = false;
@@ -577,13 +579,13 @@ public class SlideController : SingletonMono<SlideController>
             return false;
         }
 
-        if (!LazeController.Instance.CheckPlayerCanMove(cellPlayer))
+        if (lazeId > 0 && !LazeController.Instance.CheckPlayerCanMove(cellPlayer))
         {
             return false;
         }
 
         // Viết ở cuối sau khi chắc chắn Player có thể di chuyển
-        if (WaterHuntBossController.Instance.Index >= 0)
+        if (waterHuntBossId > 0)
         {
             if (new Vector2Int(cellPlayer.x, cellPlayer.y) ==
                 WaterHuntBossController.Instance.WaterHuntBossPos &&
@@ -593,7 +595,6 @@ public class SlideController : SingletonMono<SlideController>
             }
             if (!WaterHuntBossController.Instance.CheckAndMoveWater(_player, cellMoveList, direction))
             {
-                Debug.Log("2");
                 return false;
             }
         }
@@ -619,11 +620,14 @@ public class SlideController : SingletonMono<SlideController>
                     return true;
                 }
                 // Vu khoa
-                foreach (Vector2Int pos2Laze in LazeController.Instance.LazePostList)
+                if (lazeId > 0)
                 {
-                    if (pos2Laze == new Vector2Int(cell.x, cell.y))
+                    foreach (Vector2Int pos2Laze in LazeController.Instance.LazePostList)
                     {
-                        return true;
+                        if (pos2Laze == new Vector2Int(cell.x, cell.y))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -708,12 +712,12 @@ public class SlideController : SingletonMono<SlideController>
                 WaterHuntBossController.Instance.MoveWaterHuntBoss();
             }
 
-            if (LazeController.Instance.Index >= 0)
+            if (lazeId > 0)
             {
                 LazeController.Instance.SetLazes();
             }
 
-            if (PuzzleSortController.Instance.Index < 0)
+            if (puzzleSortId < 0)
             {
                 return;
             }
@@ -766,21 +770,31 @@ public class SlideController : SingletonMono<SlideController>
 
     private void SetLaze()
     {
-        int lazeId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].LazeId;
-        LazeController.Instance.pos2Player = _player.GetCurrentPos();
-        LazeController.Instance.SetInitLaze(lazeId);
+        lazeId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].LazeId;
+        if (lazeId > 0)
+        {
+            LazeController.Instance.pos2Player = _player.GetCurrentPos();
+            LazeController.Instance.SetInitLaze(lazeId);
+        }
+        
     }
 
     private void SetPuzzleSort()
     {
-        int puzzleSortId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].PuzzleSortId;
-        PuzzleSortController.Instance.SetPuzzleSort(puzzleSortId);
+        puzzleSortId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].PuzzleSortId;
+        if (this.puzzleSortId > 0)
+        {
+            PuzzleSortController.Instance.SetPuzzleSort(puzzleSortId);
+        }
     }
 
     private void SetWaterHuntBoss()
     {
-        int waterHuntBossId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].WaterHuntBossId;
-        WaterHuntBossController.Instance.SetWaterHuntBoss(waterHuntBossId);
+        waterHuntBossId = DataManager.Instance.LevelData.LevelDetails[curLevelId - 1].WaterHuntBossId;
+        if (waterHuntBossId > 0)
+        {
+            WaterHuntBossController.Instance.SetWaterHuntBoss(waterHuntBossId);
+        }
     }
 
     private void InitBossLong()

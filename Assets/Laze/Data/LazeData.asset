@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7deba24309ba6b4a8d30fd1238c803e, type: 3}
   m_Name: LazeData
   m_EditorClassIdentifier: 
-  LightSprite: {fileID: 366304656, guid: b5d6bd774b255034a8092b0ffb5b7bdd, type: 3}
+  LightSprite: {fileID: 21300000, guid: 4eb24745f9510c94aa6a1115a3646555, type: 3}
   LockSprite: {fileID: -658709218, guid: b5d6bd774b255034a8092b0ffb5b7bdd, type: 3}
   ListLazeLevel:
   - LazeID: 1

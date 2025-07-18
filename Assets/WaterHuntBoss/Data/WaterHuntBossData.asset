@@ -16,9 +16,9 @@ MonoBehaviour:
   - WaterHuntBossId: 1
     WaterHuntBossPos: {x: 13, y: 22}
     WaterList:
-    - WaterPos: {x: 13, y: 16}
+    - WaterPos: {x: 10, y: 18}
+    - WaterPos: {x: 16, y: 13}
     - WaterPos: {x: 13, y: 20}
-    - WaterPos: {x: 13, y: 11}
   - WaterHuntBossId: 1
     WaterHuntBossPos: {x: -24, y: 10}
     WaterList:

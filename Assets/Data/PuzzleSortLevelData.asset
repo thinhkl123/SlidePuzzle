@@ -14,16 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ListPuzzleSortData:
   - PuzzleSortID: 1
-    StartGroundPos: {x: 0, y: 8}
-    EndGroundPos: {x: 3, y: 10}
-    StartPuzzlePos: {x: 0, y: 12}
-    PlayerStartPos: {x: 1, y: 8}
-    PortStartPos: {x: -2, y: 9}
-    PortEndPos: {x: 1, y: 8}
-  - PuzzleSortID: 0
-    StartGroundPos: {x: -1, y: -1}
-    EndGroundPos: {x: 1, y: 1}
-    StartPuzzlePos: {x: -1, y: 3}
-    PlayerStartPos: {x: 0, y: -1}
-    PortStartPos: {x: 0, y: -3}
-    PortEndPos: {x: 5, y: -3}
+    StartGroundPos: {x: 11, y: 52}
+    EndGroundPos: {x: 14, y: 54}
+    StartPuzzlePos: {x: 11, y: 56}
+    PlayerStartPos: {x: 12, y: 52}
+    PortStartPos: {x: 8, y: 52}
+    PortEndPos: {x: 9, y: 54}

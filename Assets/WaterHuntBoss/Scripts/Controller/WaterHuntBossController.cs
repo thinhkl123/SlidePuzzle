@@ -10,7 +10,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public WaterHuntBossView WaterHuntBossPrefab;
     public Vector2Int WaterHuntBossPos; 
     public WaterHuntBossModel WaterHuntBoss;
-    public int Index = -1;
+    private int _index = -1;
 
     [Header(" Trap ")] 
     public Tilemap TrapForWaterHuntTilemap;
@@ -29,16 +29,16 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     {
         if (index - 1 < 0)
         {
-            this.Index = -1;
+            this._index = -1;
             return;
         }
-        this.Index = index - 1;
+        this._index = index - 1;
         this._waterHuntBossData = DataManager.Instance.WaterHuntBossData;
-        this.WaterHuntBossPos = _waterHuntBossData.WaterHuntBossList[Index].WaterHuntBossPos;
+        this.WaterHuntBossPos = _waterHuntBossData.WaterHuntBossList[_index].WaterHuntBossPos;
         this.SpawnWaterHuntBoss();
 
         this.WaterPosList = new List<Vector2Int>();
-        foreach (var water in _waterHuntBossData.WaterHuntBossList[Index].WaterList)
+        foreach (var water in _waterHuntBossData.WaterHuntBossList[_index].WaterList)
         {
             this.WaterPosList.Add(water.WaterPos);
         }
@@ -175,7 +175,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
 
     public bool CheckMoveForBoss(Vector2Int waterPos, Player player)
     {
-        if (this.Index < 0 || this.WaterHuntBoss.Health <=0)         
+        if (this._index < 0 || this.WaterHuntBoss.Health <=0)         
         {
             return false;
         }

@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class LazeController : SingletonMono<LazeController>
 {
     [Header(" Information ")]
-    public int Index = -1;
+    private int _index = -1;
     public Vector2Int pos2Player;
 
     [Header(" Tile Prefab ")]
@@ -28,10 +28,10 @@ public class LazeController : SingletonMono<LazeController>
     {
         if (index < 1)
         {
-            this.Index = -1;
+            this._index = -1;
             return;
         }
-        this.Index = index - 1;
+        this._index = index - 1;
 
         this._lazeData = DataManager.Instance.LazeData;
         this.LazePostList = new List<Vector2Int>();
@@ -43,7 +43,7 @@ public class LazeController : SingletonMono<LazeController>
         _lockTile = ScriptableObject.CreateInstance<Tile>();
         _lockTile.sprite = this._lazeData.LockSprite;
         
-        foreach (var laze in this._lazeData.ListLazeLevel[Index].LazeList)
+        foreach (var laze in this._lazeData.ListLazeLevel[_index].LazeList)
         {
             this.LazePostList.Add(laze.Position);
             this._lazeDirectionList.Add(laze.Direction);
@@ -204,7 +204,7 @@ public class LazeController : SingletonMono<LazeController>
 
     public bool CheckPlayerCanMove(Vector3Int posPlayer)
     {
-        if (this.Index < 0)
+        if (this._index < 0)
         {
             return true;
         }
