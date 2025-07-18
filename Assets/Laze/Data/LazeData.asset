@@ -17,9 +17,18 @@ MonoBehaviour:
   ListLazeLevel:
   - LazeID: 1
     LazeList:
-    - Position: {x: -11, y: 4}
+    - Position: {x: -14, y: -22}
       Direction: 2
-      LockPosition: {x: -5, y: 5}
-    - Position: {x: -3, y: 4}
-      Direction: 1
-      LockPosition: {x: -5, y: 5}
+      LockPosition: {x: -11, y: -22}
+    - Position: {x: -7, y: -8}
+      Direction: 2
+      LockPosition: {x: -4, y: -8}
+    - Position: {x: -9, y: 1}
+      Direction: 2
+      LockPosition: {x: -2, y: 2}
+    - Position: {x: -9, y: -1}
+      Direction: 2
+      LockPosition: {x: -2, y: 2}
+    - Position: {x: -9, y: -3}
+      Direction: 2
+      LockPosition: {x: -2, y: 2}

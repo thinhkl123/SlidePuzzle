@@ -14,13 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelDetails:
   - LevelId: 1
-    PlayerPosition: {x: -8, y: -4}
+    PlayerPosition: {x: 13, y: 13}
     ItemId: 1
     BlockId: 0
     EnemyNotMoveId: 0
     PuzzleSortId: 0
+    WaterHuntBossId: 1
+    LazeId: 1
+    hasBossLong: 0
+  - LevelId: 1
+    PlayerPosition: {x: -8, y: 4}
+    ItemId: 1
+    BlockId: 0
+    EnemyNotMoveId: 0
+    PuzzleSortId: 1
     WaterHuntBossId: 0
-    LazeId: 0
+    LazeId: 1
     hasBossLong: 0
   - LevelId: 1
     PlayerPosition: {x: -8, y: 4}

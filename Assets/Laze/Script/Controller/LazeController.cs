@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 public class LazeController : SingletonMono<LazeController>
 {
     [Header(" Information ")]
-    public Tilemap LazeTilemap; 
     public int Index = -1;
     public Vector2Int pos2Player;
 
@@ -139,7 +138,7 @@ public class LazeController : SingletonMono<LazeController>
             if (isSetTile)
             {
                 listLight.Add(pos3);
-                this.LazeTilemap.SetTile(pos3, this._lightTile);
+                SlideController.Instance.lazeTilemap.SetTile(pos3, this._lightTile);
             }
 
         }
@@ -169,7 +168,7 @@ public class LazeController : SingletonMono<LazeController>
 
         for (int i = 0; i < this._listLight[index].Count; ++i)
         {
-            this.LazeTilemap.SetTile(this._listLight[index][i], null);
+            SlideController.Instance.lazeTilemap.SetTile(this._listLight[index][i], null);
         }
         this._listLight[index] = new List<Vector3Int>();
     }

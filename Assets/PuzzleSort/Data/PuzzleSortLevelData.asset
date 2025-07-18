@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ListPuzzleSortData:
   - PuzzleSortID: 1
-    StartGroundPos: {x: 8, y: 24}
-    EndGroundPos: {x: 11, y: 26}
-    StartPuzzlePos: {x: 8, y: 28}
-    PlayerStartPos: {x: 9, y: 24}
-    PortStartPos: {x: 25, y: 37}
-    PortEndPos: {x: 16, y: 11}
+    StartGroundPos: {x: 0, y: 8}
+    EndGroundPos: {x: 3, y: 10}
+    StartPuzzlePos: {x: 0, y: 12}
+    PlayerStartPos: {x: 1, y: 8}
+    PortStartPos: {x: -2, y: 9}
+    PortEndPos: {x: 1, y: 8}
   - PuzzleSortID: 0
     StartGroundPos: {x: -1, y: -1}
     EndGroundPos: {x: 1, y: 1}
