@@ -174,6 +174,7 @@ public class SlideController : SingletonMono<SlideController>
         if (!CheckPlayerCanMove(newPlayerGridPos, cellMovePosList, direction))
         {
             _player.Shake();
+            canSlide = true;
             return;
         }
 
