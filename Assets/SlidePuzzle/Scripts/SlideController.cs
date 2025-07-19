@@ -211,10 +211,10 @@ public class SlideController : SingletonMono<SlideController>
 
     private void ResetCanSlide()
     {
-        float time = 0.25f;
+        float time = 0.27f;
         if (isWaitMore)
         {
-            time += 0.25f;
+            time += 0.16f;
         }
 
         Invoke(nameof(SetCanSlide), time);
@@ -649,8 +649,10 @@ public class SlideController : SingletonMono<SlideController>
         return false;
     }
 
-    public void MoveGroundTile(List<Vector2Int> cellsToSlide, Direction direction, bool inPuzzleSort = false)
+    public void MoveGroundTile(List<Vector2Int> cellsToSlides, Direction direction, bool inPuzzleSort = false)
     {
+        List<Vector2Int> cellsToSlide = new List<Vector2Int>(cellsToSlides);
+
         //Spawn các tile động theo thứ tự cells
         List<TileFake> clones = new List<TileFake>();
         List<TileBase> tileOrder = new List<TileBase>();
@@ -714,8 +716,6 @@ public class SlideController : SingletonMono<SlideController>
 
             foreach (var obj in clones)
                 Destroy(obj.gameObject);
-
-            canSlide = true;
 
             // Vu Khoa
             if (WaterHuntBossController.Instance.CheckMoveForBoss(

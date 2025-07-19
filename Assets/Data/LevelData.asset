@@ -23,7 +23,7 @@ MonoBehaviour:
     LazeId: 0
     hasBossLong: 0
   - LevelId: 2
-    PlayerPosition: {x: 4, y: 2}
+    PlayerPosition: {x: -5, y: -28}
     ItemId: 2
     BlockId: 1
     EnemyNotMoveId: 1
