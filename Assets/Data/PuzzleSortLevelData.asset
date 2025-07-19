@@ -17,6 +17,6 @@ MonoBehaviour:
     StartGroundPos: {x: 11, y: 52}
     EndGroundPos: {x: 14, y: 54}
     StartPuzzlePos: {x: 11, y: 56}
-    PlayerStartPos: {x: 12, y: 52}
+    PlayerStartPos: {x: 14, y: 52}
     PortStartPos: {x: 8, y: 52}
     PortEndPos: {x: 9, y: 54}
