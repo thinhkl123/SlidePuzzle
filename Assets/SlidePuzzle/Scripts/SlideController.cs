@@ -68,6 +68,8 @@ public class SlideController : SingletonMono<SlideController>
             return;
         }
 
+        canSlide = false;
+
         //Setup, get cell list
         Vector2Int dir1 = new Vector2Int(0, 0), dir2 = new Vector2Int(0, 0);
         Vector2Int curPlayerPos = _player.GetCurrentPos();
@@ -154,11 +156,11 @@ public class SlideController : SingletonMono<SlideController>
         if (!CheckPlayerCanMove(newPlayerGridPos, cellMovePosList))
         {
             _player.Shake();
+            canSlide = true;
 
             return;
         }
 
-        canSlide = false;
         isWaitMore = false;
 
         Vector3 pos = groundTilemap.GetCellCenterWorld(newPlayerGridPos);
@@ -183,10 +185,10 @@ public class SlideController : SingletonMono<SlideController>
 
     private void ResetCanSlide()
     {
-        float time = 0.25f;
+        float time = 0.26f;
         if (isWaitMore)
         {
-            time += 0.25f;
+            time += 0.16f;
         }
 
         Invoke(nameof(SetCanSlide), time);
@@ -332,6 +334,11 @@ public class SlideController : SingletonMono<SlideController>
             }
         }
 
+        if (!BossLongController.Instance.IsFitLength())
+        {
+            isWaitMore = true;
+        }
+
         //Bước 3: Sau khi tween xong → cập nhật lại Tilemap và xóa clone
         DOVirtual.DelayedCall(0.25f, () =>
         {
@@ -381,8 +388,8 @@ public class SlideController : SingletonMono<SlideController>
         TileFake tileFake = Instantiate(bossLongTileFakePrefab, bossLongTilemap.GetCellCenterWorld(gridPos), Quaternion.identity);
         tileFake.transform.localScale = Vector3.zero;
         tileFake.SetSprite(GetSpriteFromTile(tile));
-        tileFake.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
-        DOVirtual.DelayedCall(0.25f, () =>
+        tileFake.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.OutBack);
+        DOVirtual.DelayedCall(0.15f, () =>
         {
             Destroy(tileFake.gameObject);
             bossLongTilemap.SetTile(gridPos, tile);
