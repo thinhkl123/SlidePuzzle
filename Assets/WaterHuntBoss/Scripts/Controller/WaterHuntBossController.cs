@@ -12,8 +12,8 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public WaterHuntBossModel WaterHuntBoss;
     private int _index = -1;
 
-    [Header(" Trap ")] 
-    public Tilemap TrapForWaterHuntTilemap;
+    //[Header(" Trap ")] 
+    //public Tilemap TrapForWaterHuntTilemap;
 
     [Header(" Water ")]
     public GameObject WaterPrefab;
@@ -211,9 +211,9 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         this.WaterHuntBossPos = this.NewPosForBoss;
         Vector3Int posCheckTrap = new Vector3Int(WaterHuntBossPos.x, WaterHuntBossPos.y, 0);
         this.WaterHuntBoss.WaterHuntBossView.Move(this.WaterHuntBossPos);
-        if (this.TrapForWaterHuntTilemap.HasTile(posCheckTrap))
+        if (SlideController.Instance.trapForWaterHuntTilemap.HasTile(posCheckTrap))
         {
-            this.TrapForWaterHuntTilemap.SetTile(posCheckTrap, null);
+            SlideController.Instance.trapForWaterHuntTilemap.SetTile(posCheckTrap, null);
             this.WaterHuntBoss.TakeDamage(1);
         }
         

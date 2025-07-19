@@ -30,13 +30,21 @@ MonoBehaviour:
     - {x: 3, y: 56}
     KeyPosList: []
     KeyTypeList: 
-  - ItemId: 6
+  - ItemId: 2
     WeaponPosList:
-    - {x: 5, y: 3}
+    - {x: -5, y: -23}
+    - {x: -4, y: -17}
+    - {x: -8, y: -7}
     KeyPosList:
+    - {x: -12, y: -14}
+    - {x: -9, y: -10}
+    - {x: -4, y: -4}
+    - {x: 0, y: -2}
+    - {x: -2, y: 0}
     - {x: 6, y: 4}
     - {x: 6, y: 9}
-    KeyTypeList: 0100000002000000
+    - {x: 5, y: 3}
+    KeyTypeList: 0200000003000000030000000200000001000000010000000200000001000000
   - ItemId: 3
     WeaponPosList:
     - {x: -7, y: -3}

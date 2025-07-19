@@ -23,16 +23,16 @@ MonoBehaviour:
     LazeId: 0
     hasBossLong: 0
   - LevelId: 2
-    PlayerPosition: {x: -16, y: -26}
-    ItemId: 3
-    BlockId: 0
-    EnemyNotMoveId: 0
+    PlayerPosition: {x: 4, y: 2}
+    ItemId: 2
+    BlockId: 1
+    EnemyNotMoveId: 1
     PuzzleSortId: 0
-    WaterHuntBossId: 1
-    LazeId: 1
+    WaterHuntBossId: 0
+    LazeId: 0
     hasBossLong: 0
   - LevelId: 3
-    PlayerPosition: {x: -16, y: -26}
+    PlayerPosition: {x: -3, y: 10}
     ItemId: 3
     BlockId: 0
     EnemyNotMoveId: 0
