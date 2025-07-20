@@ -71,6 +71,14 @@ public class BossLongController : SingletonMono<BossLongController>
             return;
         }
 
+        List<Vector2Int> obstacles = new List<Vector2Int>(DataManager.Instance.BossLongData.ObstacleEachPhase[phase - 2].obstaclePos);
+        for (int i = 0; i < obstacles.Count; i++)
+        {
+            Vector3Int gridPos = new Vector3Int(obstacles[i].x, obstacles[i].y, 0);
+            SlideController.Instance.obstacleTilemap.SetTile(gridPos, DataManager.Instance.BossLongData.obstacleTile);
+        }
+
+
         posList.Clear();
         posList.Add(newHeadPos);
 
