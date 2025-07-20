@@ -5,17 +5,30 @@ using UnityEngine;
 [Serializable]
 public class PuzzleSort 
 {
-    public int PuzzleSortID;
     public Vector2Int StartGroundPos;
     public Vector2Int EndGroundPos;
     public Vector2Int StartPuzzlePos;
-    public Vector2Int PlayerStartPos;
     public Vector2Int PortStartPos;
     public Vector2Int PortEndPos;
+    public int ValuePlayer;
+}
+
+[Serializable]
+public class PuzzleSortShuffle
+{
+    public List<int> ShuffleList;
+}
+
+[Serializable]
+public class PuzzleSortDetails
+{
+    public int PuzzleSortID;
+    public PuzzleSort PuzzleSort;
+    public PuzzleSortShuffle PuzzleShuffle;
 }
 
 [CreateAssetMenu(fileName = "PuzzleSortLevelData", menuName = "PuzzleSortLevelSO")]
 public class PuzzleSortLevelSO : ScriptableObject
 {
-    public List<PuzzleSort> ListPuzzleSortData;
+    public List<PuzzleSortDetails> PuzzleSortDataList;
 }

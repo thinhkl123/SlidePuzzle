@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c235287eac0b2e41a9383fe214e9490, type: 3}
   m_Name: PuzzleSortLevelData
   m_EditorClassIdentifier: 
-  ListPuzzleSortData:
+  PuzzleSortDataList:
   - PuzzleSortID: 1
-    StartGroundPos: {x: 11, y: 52}
-    EndGroundPos: {x: 14, y: 54}
-    StartPuzzlePos: {x: 11, y: 56}
-    PlayerStartPos: {x: 14, y: 52}
-    PortStartPos: {x: 8, y: 52}
-    PortEndPos: {x: 9, y: 54}
+    PuzzleSort:
+      StartGroundPos: {x: 11, y: 52}
+      EndGroundPos: {x: 14, y: 54}
+      StartPuzzlePos: {x: 11, y: 56}
+      PortStartPos: {x: 8, y: 52}
+      PortEndPos: {x: 9, y: 54}
+      ValuePlayer: 3
+    PuzzleShuffle:
+      ShuffleList: 0000000001000000060000000200000004000000050000000a000000070000000800000009000000030000000b000000

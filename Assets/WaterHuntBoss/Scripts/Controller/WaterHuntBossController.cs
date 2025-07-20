@@ -12,14 +12,11 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public WaterHuntBossModel WaterHuntBoss;
     private int _index = -1;
 
-    //[Header(" Trap ")] 
-    //public Tilemap TrapForWaterHuntTilemap;
-
     [Header(" Water ")]
     public GameObject WaterPrefab;
-    public List<Vector2Int> WaterPosList;
-    public int CurWaterIndex;
+    public Vector2Int WaterPos;
 
+    private Vector2Int _dataWaterPos;
     private GameObject _curWater;
     private WaterHuntBossSO _waterHuntBossData;
 
@@ -34,41 +31,36 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         }
         this._index = index - 1;
         this._waterHuntBossData = DataManager.Instance.WaterHuntBossData;
-        this.WaterHuntBossPos = _waterHuntBossData.WaterHuntBossList[_index].WaterHuntBossPos;
+        this.WaterHuntBossPos = _waterHuntBossData.WaterHuntBossList[_index].BossSpawnPos;
         this.SpawnWaterHuntBoss();
 
-        this.WaterPosList = new List<Vector2Int>();
-        foreach (var water in _waterHuntBossData.WaterHuntBossList[_index].WaterList)
-        {
-            this.WaterPosList.Add(water.WaterPos);
-        }
-        this.CurWaterIndex = 0;
+        this._dataWaterPos = _waterHuntBossData.WaterHuntBossList[_index].WaterSpawnPos;
 
         this.SpawnWater();
-        this.NewPosForBoss = this.WaterPosList[this.CurWaterIndex];
+        this.NewPosForBoss = this.WaterPos;
     }
 
     private void SpawnWaterHuntBoss()
     {
         Vector3Int initWaterHuntBossPos = new Vector3Int(WaterHuntBossPos.x, WaterHuntBossPos.y, 0);
         Tilemap groundTilemap = SlideController.Instance.groundTilemap;
-        WaterHuntBossView waterHuntBossView = Instantiate(WaterHuntBossPrefab, groundTilemap.CellToWorld(initWaterHuntBossPos) + groundTilemap.cellSize / 2, Quaternion.identity);
+        WaterHuntBossView waterHuntBossView = Instantiate(WaterHuntBossPrefab, groundTilemap.CellToWorld(initWaterHuntBossPos) + groundTilemap.cellSize / 2, Quaternion.identity, this.transform);
+        waterHuntBossView.name = "WaterHuntBoss";
         WaterHuntBoss = new WaterHuntBossModel();
         WaterHuntBoss.SetView(waterHuntBossView);
     }
 
     private void SpawnWater()
     {
-        Vector3Int initWaterPos = new Vector3Int(   this.WaterPosList[this.CurWaterIndex].x, 
-                                                    this.WaterPosList[this.CurWaterIndex].y, 
-                                                    0);
+        Vector3Int initWaterPos = new Vector3Int(this._dataWaterPos.x, this._dataWaterPos.y, 0);
+        this.WaterPos = this._dataWaterPos;
         Tilemap groundTilemap = SlideController.Instance.groundTilemap;
-        _curWater = Instantiate(WaterPrefab, groundTilemap.CellToWorld(initWaterPos) + groundTilemap.cellSize / 2, Quaternion.identity);
+        _curWater = Instantiate(WaterPrefab, groundTilemap.CellToWorld(initWaterPos) + groundTilemap.cellSize / 2, Quaternion.identity, this.transform);
     } 
 
     public void MoveWater(Vector2Int newGridPos, Vector3 worldPos)
     {
-        this.WaterPosList[CurWaterIndex] = newGridPos;
+        this.WaterPos = newGridPos;
         this._curWater.transform.DOMove(worldPos, 0.25f).SetEase(Ease.InOutSine);
     }
 
@@ -77,7 +69,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         this._curWater.transform.DOScale(Vector3.zero, 0.1f).SetEase(Ease.InBack).OnComplete(() =>
         {
             this._curWater.transform.position = worldPos;
-            this.WaterPosList[CurWaterIndex] = newGridPos;
+            this.WaterPos = newGridPos;
             this._curWater.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.OutBack);
         });
     }
@@ -91,8 +83,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         seq.OnComplete(() => 
         {
             Destroy(this._curWater.gameObject);
-            this.ResetWater();
-            
+            this.SpawnWater();
         });
     }
 
@@ -116,7 +107,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         }
 
         Vector2Int oldPlayerPos = player.GetCurrentPos();
-        Vector2Int waterPos = WaterPosList[this.CurWaterIndex];
+        Vector2Int waterPos = WaterPos;
         bool check = false;
 
         if (((direction == Direction.Left || direction == Direction.Right) &&
@@ -128,7 +119,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         }
         if (!check) 
         { 
-            this.NewPosForBoss = this.WaterPosList[this.CurWaterIndex];
+            this.NewPosForBoss = this.WaterPos;
             return true;
         }
         bool isTeleport = false;
@@ -149,7 +140,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
             return false;
         }
 
-        this.NewPosForBoss = this.WaterPosList[this.CurWaterIndex];
+        this.NewPosForBoss = this.WaterPos;
 
         if (!isTeleport)
         {
@@ -218,22 +209,9 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         }
         
         if (WaterHuntBoss.Health > 0 && 
-            WaterHuntBossPos == this.WaterPosList[this.CurWaterIndex])
+            WaterHuntBossPos == this.WaterPos)
         {
             this.HideWater();
-        }
-    }
-
-    public void ResetWater()
-    {
-        this.CurWaterIndex++;
-        if (this.CurWaterIndex < this.WaterPosList.Count)
-        {
-            this.SpawnWater();
-        }
-        else
-        {
-            Debug.Log("Lose");
         }
     }
 }

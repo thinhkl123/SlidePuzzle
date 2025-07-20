@@ -7,16 +7,18 @@ using UnityEngine.Tilemaps;
 public class PuzzleSortController : SingletonMono<PuzzleSortController>
 {
     private List<List<int>> _result;
+    private List<int> _shuffleList;
     private Vector2Int _puzzleSize;
     private int _index = -1;
+    private Vector2Int _playerStartPos;
 
     public void SetPuzzleSort(int puzzleSortId)
     {
         this._index = puzzleSortId - 1;
         if (this._index < 0) return;
 
-        Vector2Int puzzleSideTmp =  DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].EndGroundPos -
-                            DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartGroundPos +
+        Vector2Int puzzleSideTmp =  DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.EndGroundPos -
+                            DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartGroundPos +
                             Vector2Int.one;
         this._puzzleSize = new Vector2Int(puzzleSideTmp.y, puzzleSideTmp.x);
         this._result = new List<List<int>>();
@@ -32,65 +34,108 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
         this.Shuffle();
     }
 
-    // Không quan trọng, sau tự design map.
+
     private void Shuffle()
     {
-        Debug.Log(_puzzleSize);
+        //for (int i = 0; i < _puzzleSize.x; i++)
+        //{
+        //    for (int j = 0; j < _puzzleSize.y; j++)
+        //    {
+        //        int ran1 = Random.Range(0, 2) * 2 - 1;
+        //        int ran2 = Random.Range(0, 2) * 2 - 1;
+        //        Debug.Log("Ran1: " + ran1 + " Ran2: " + ran2);  
+        //        int randomI = i + ran1;
+        //        int randomJ = j - ran2;
+        //        if ((randomI >= 0 && randomI < this._puzzleSize.x) &&
+        //            (randomJ >= 0 && randomJ < this._puzzleSize.y))
+        //        {
+        //            // Swap Result
+        //            this.SwapResult(new Vector2Int(i, j), new Vector2Int(randomI, randomJ));
+
+        //            // Swap Tilemap
+        //            Vector2Int fromPos = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSortData.StartPuzzlePos;
+        //            Vector2Int toPos = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSortData.StartPuzzlePos;
+        //            fromPos += new Vector2Int(j, i);
+        //            toPos += new Vector2Int(randomJ, randomI);
+        //            this.SwapTiles(fromPos, toPos);
+        //        }
+        //    }
+        //}
+        //Vector2Int distance = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSortData.PlayerStartPos 
+        //    - DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSortData.StartGroundPos;
+        //Vector2Int posGridPlayer = new Vector2Int(distance.y, distance.x);
+
+        //for (int i = 0; i < _puzzleSize.x; i++)
+        //{
+        //    for (int j = 0; j < _puzzleSize.y; j++)
+        //    {
+        //        Debug.Log(this._result[i][j]);
+        //    }
+        //}
+        //Debug.Log("Pos Grid Player: " + posGridPlayer);
+
+        this._shuffleList = new List<int>();
+        this._shuffleList = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleShuffle.ShuffleList;
+
+        int count = -1;
         for (int i = 0; i < _puzzleSize.x; i++)
         {
             for (int j = 0; j < _puzzleSize.y; j++)
             {
-                int randomI = Random.Range(0, _puzzleSize.x);
-                int randomJ = Random.Range(0, _puzzleSize.y);
-
-                // Swap Result
-                this.SwapResult(new Vector2Int(i, j), new Vector2Int(randomI, randomJ));
+                count++;
+                Debug.Log(count);
+                Debug.Log("Count: " + count + " Value: " + this._shuffleList[count]);
+                Vector2Int posGridShuffle = this.FindPosInResult(this._shuffleList[count]);
+                Debug.Log("Pos Grid Shuffle: " + posGridShuffle);
+                this.SwapResult(new Vector2Int(i, j), posGridShuffle);
 
                 // Swap Tilemap
-                Vector2Int fromPos = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
-                Vector2Int toPos = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
+                Vector2Int fromPos = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartPuzzlePos;
+                Vector2Int toPos = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartPuzzlePos;
                 fromPos += new Vector2Int(j, i);
-                toPos += new Vector2Int(randomJ, randomI);
+                toPos += new Vector2Int(posGridShuffle.y, posGridShuffle.x);
                 this.SwapTiles(fromPos, toPos);
+
             }
         }
 
+        int valuePlayer = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.ValuePlayer;
+        Vector2Int playerGridPos = this.FindPosInResult(valuePlayer);
+        this._playerStartPos = new Vector2Int(playerGridPos.y, playerGridPos.x) 
+            + DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartGroundPos;
+    }
+
+    private Vector2Int FindPosInResult(int value)
+    {
         for (int i = 0; i < _puzzleSize.x; i++)
         {
             for (int j = 0; j < _puzzleSize.y; j++)
             {
-                if (this._result[i][j] == 1)
+                if (this._result[i][j] == value)
                 {
-                    this.SwapResult(new Vector2Int(i, j), new Vector2Int(0, 1));
-
-                    // Swap Tilemap
-                    Vector2Int fromPos = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
-                    Vector2Int toPos = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
-                    fromPos += new Vector2Int(j, i);
-                    toPos += new Vector2Int(1, 0);
-                    this.SwapTiles(fromPos, toPos);
-                    break;
+                    return new Vector2Int(i, j);
                 }
             }
         }
+        return Vector2Int.zero;
     }
 
     public void MovePuzzleSortTile(Player player, Vector2Int offsetPlayer, Tilemap puzzleSortTilemap)
     {
-        Vector2Int offset = player.GetCurrentPos() - DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartGroundPos;
-        Vector2Int puzzlePos1 = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
+        Vector2Int offset = player.GetCurrentPos() - DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartGroundPos;
+        Vector2Int puzzlePos1 = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartPuzzlePos;
         puzzlePos1 += offset;
 
-        offset = (player.GetCurrentPos() - offsetPlayer) - DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartGroundPos;
-        Vector2Int puzzlePos2 = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
+        offset = (player.GetCurrentPos() - offsetPlayer) - DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartGroundPos;
+        Vector2Int puzzlePos2 = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartPuzzlePos;
         puzzlePos2 += offset;
 
         // Swap Tiles
         this.SwapTilesEffect(puzzlePos1, puzzlePos2);
 
         // Swap result
-        puzzlePos1 = puzzlePos1 - DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
-        puzzlePos2 = puzzlePos2 - DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartPuzzlePos;
+        puzzlePos1 = puzzlePos1 - DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartPuzzlePos;
+        puzzlePos2 = puzzlePos2 - DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartPuzzlePos;
         this.SwapResult(new Vector2Int(puzzlePos1.y, puzzlePos1.x), new Vector2Int(puzzlePos2.y, puzzlePos2.x));
     }
 
@@ -173,17 +218,17 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
                 }
             }
         }
-        this.MovePlayer(player, DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].PortEndPos);
+        this.MovePlayer(player, DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.PortEndPos);
         return true;
     }
 
     public bool CheckPlayerInPuzzleSort(Player player)
     {
         if (_index < 0) return false;
-        if (player.GetCurrentPos().x >= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartGroundPos.x &&
-            player.GetCurrentPos().x <= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].EndGroundPos.x &&
-            player.GetCurrentPos().y >= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].StartGroundPos.y &&
-            player.GetCurrentPos().y <= DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].EndGroundPos.y
+        if (player.GetCurrentPos().x >= DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartGroundPos.x &&
+            player.GetCurrentPos().x <= DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.EndGroundPos.x &&
+            player.GetCurrentPos().y >= DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.StartGroundPos.y &&
+            player.GetCurrentPos().y <= DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.EndGroundPos.y
             )
         {
             return true;
@@ -193,13 +238,13 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
 
     public bool CheckPortPos(Player player)
     {
-        Vector2Int portPos = DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].PortStartPos;
+        Vector2Int portPos = DataManager.Instance.PuzzleSortLevelData.PuzzleSortDataList[_index].PuzzleSort.PortStartPos;
         Vector2Int playerPos = player.GetCurrentPos();
         if (portPos != playerPos)
         {
             return false;
         }
-        this.MovePlayer(player, DataManager.Instance.PuzzleSortLevelData.ListPuzzleSortData[_index].PlayerStartPos);
+        this.MovePlayer(player, this._playerStartPos);
         return true;
     }
 
@@ -207,7 +252,6 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
     {
         Vector3Int playerGridPos = new Vector3Int(newPlayerPos.x, newPlayerPos.y, 0);
         Vector3 worldPos = SlideController.Instance.groundTilemap.GetCellCenterWorld(playerGridPos);
-        Debug.Log("Move Player to: " + newPlayerPos + " World Pos: " + worldPos);
         player.Teleport(newPlayerPos, worldPos);
     }
 }

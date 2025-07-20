@@ -18,6 +18,6 @@ public class Water
 public class WaterHuntBossDetail
 {
     public int WaterHuntBossId;
-    public Vector2Int WaterHuntBossPos;
-    public List<Water> WaterList;
+    public Vector2Int BossSpawnPos;
+    public Vector2Int WaterSpawnPos;
 }
