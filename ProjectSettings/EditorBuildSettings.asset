@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Character/Scene/Platform.unity
     guid: adfc79b3c623f1b4da729c177f17ade4
   - enabled: 1
-    path: Assets/LevelDesign/Level3/Level3.unity
+    path: Assets/LevelDesign/Level2/Level2.unity
     guid: 3e5a3a6fffafb634ab3346c35fb2b303
   m_configObjects: {}

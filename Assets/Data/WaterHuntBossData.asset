@@ -16,3 +16,4 @@ MonoBehaviour:
   - WaterHuntBossId: 1
     BossSpawnPos: {x: 13, y: 22}
     WaterSpawnPos: {x: 10, y: 18}
+    WaterSpawnPos2: {x: 13, y: 21}

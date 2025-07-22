@@ -117,12 +117,12 @@ public class LazeController : SingletonMono<LazeController>
             }
             else
             {
-                this._listLight[i] = this.SetLaze(pos2, offset, i);
+                this._listLight[i] = this.SetLaze(pos2, offset, i, true, direction);
             }
         }
     }
 
-    private List<Vector3Int> SetLaze(Vector2Int pos2, Vector2Int offset, int index, bool isSetTile = true)
+    private List<Vector3Int> SetLaze(Vector2Int pos2, Vector2Int offset, int index, bool isSetTile = true, Direction direction = Direction.None)
     {
         List<Vector3Int> listLight = new List<Vector3Int>();
         Vector3Int pos3 = new Vector3Int(pos2.x, pos2.y, 0);
@@ -139,6 +139,15 @@ public class LazeController : SingletonMono<LazeController>
             {
                 listLight.Add(pos3);
                 SlideController.Instance.lazeTilemap.SetTile(pos3, this._lightTile);
+                Vector3 scaleTile = new Vector3(2f, 1f, 1f);
+                Quaternion rotationTile = Quaternion.Euler(0, 0, 0);
+                Vector3 offsetTile = new Vector3(0, 0.05f, 0);
+                if (direction == Direction.Right)
+                {
+                    rotationTile = Quaternion.Euler(0, 0, 270);
+                }
+                Matrix4x4 transformMatrix = Matrix4x4.TRS(offsetTile, rotationTile, scaleTile);
+                SlideController.Instance.lazeTilemap.SetTransformMatrix(pos3, transformMatrix);
             }
 
         }
