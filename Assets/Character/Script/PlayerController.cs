@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             canControll = false;
             this.rb.velocity = Vector2.zero;
+            this.animator.SetFloat("Speed", 0f);
             DialogueManager.Instance.StartDialogueThisState();
         }
     }
