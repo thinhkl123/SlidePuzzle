@@ -111,7 +111,13 @@ public class DialogueManager : SingletonMono<DialogueManager>
         dialogueBox.SetActive(false);
         if (!isAfter)
         {
-            LoadingManager.instance.LoadScene("Level 1 After");
+            //Load next level
+            LoadingManager.instance.LoadScene("Level 2");
+        }
+        else
+        {
+            //Load to puzzle
+            LoadingManager.instance.LoadScene("Puzzle");
         }
     }
 
