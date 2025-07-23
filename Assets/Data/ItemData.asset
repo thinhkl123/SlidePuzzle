@@ -32,6 +32,15 @@ MonoBehaviour:
     KeyTypeList: 
   - ItemId: 2
     WeaponPosList:
+    - {x: -7, y: -3}
+    - {x: -7, y: -2}
+    - {x: -7, y: -1}
+    - {x: -7, y: -9}
+    - {x: -13, y: -23}
+    KeyPosList: []
+    KeyTypeList: 
+  - ItemId: 3
+    WeaponPosList:
     - {x: -5, y: -23}
     - {x: -4, y: -17}
     - {x: -8, y: -7}
@@ -45,12 +54,3 @@ MonoBehaviour:
     - {x: 6, y: 9}
     - {x: 5, y: 3}
     KeyTypeList: 0200000003000000030000000200000001000000010000000200000001000000
-  - ItemId: 3
-    WeaponPosList:
-    - {x: -7, y: -3}
-    - {x: -7, y: -2}
-    - {x: -7, y: -1}
-    - {x: -7, y: -9}
-    - {x: -13, y: -23}
-    KeyPosList: []
-    KeyTypeList: 

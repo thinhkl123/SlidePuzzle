@@ -608,8 +608,8 @@ public class SlideController : SingletonMono<SlideController>
         if (waterHuntBossId > 0)
         {
             if (new Vector2Int(cellPlayer.x, cellPlayer.y) ==
-                WaterHuntBossController.Instance.WaterHuntBossPos &&
-                WaterHuntBossController.Instance.WaterHuntBoss.Health > 0)
+            WaterHuntBossController.Instance.WaterHuntBossPos &&
+            WaterHuntBossController.Instance.WaterHuntBoss.Health > 0)
             {
                 return false;
             }
@@ -617,6 +617,7 @@ public class SlideController : SingletonMono<SlideController>
             {
                 return false;
             }
+            
         }
         return true;
     }
@@ -729,7 +730,7 @@ public class SlideController : SingletonMono<SlideController>
                 WaterHuntBossController.Instance.NewPosForBoss, _player)
                 )
             {
-                WaterHuntBossController.Instance.MoveWaterHuntBoss();
+                WaterHuntBossController.Instance.MoveWaterHuntBoss(this._player);
             }
 
             if (lazeId > 0)
@@ -778,7 +779,7 @@ public class SlideController : SingletonMono<SlideController>
     public void SpawnLevel()
     {
         //curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
-        curLevelId = 1;
+        curLevelId = 2;
         CreateGridPrefab();
         this.SetPuzzleSort();
         this.SetWaterHuntBoss();

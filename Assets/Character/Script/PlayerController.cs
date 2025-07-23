@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Door"))
         {
-            LoadingManager.instance.LoadScene("Level3");
+            LoadingManager.instance.LoadScene("Level2");
         }
         else if (collision.CompareTag("RescueTalk"))
         {

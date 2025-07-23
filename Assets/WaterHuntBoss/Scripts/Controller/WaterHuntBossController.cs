@@ -16,9 +16,9 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public GameObject WaterPrefab;
     public Vector2Int WaterPos;
 
-    private Vector2Int _dataWaterPos;
     private GameObject _curWater;
     private WaterHuntBossSO _waterHuntBossData;
+    private Vector2Int _dataWaterPos;
 
     public Vector2Int NewPosForBoss = new Vector2Int(-1, -1);
 
@@ -50,10 +50,16 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         WaterHuntBoss.SetView(waterHuntBossView);
     }
 
-    private void SpawnWater()
+    public void SpawnWater(bool plusPos = false)
     {
-        Vector3Int initWaterPos = new Vector3Int(this._dataWaterPos.x, this._dataWaterPos.y, 0);
-        this.WaterPos = this._dataWaterPos;
+        Vector2Int newPos = new Vector2Int(this._dataWaterPos.x, this._dataWaterPos.y);
+
+        if (plusPos)
+        {
+            newPos = this._waterHuntBossData.WaterHuntBossList[_index].WaterSpawnPos2;
+        }
+        Vector3Int initWaterPos = new Vector3Int(newPos.x, newPos.y, 0);
+        this.WaterPos = newPos;
         Tilemap groundTilemap = SlideController.Instance.groundTilemap;
         _curWater = Instantiate(WaterPrefab, groundTilemap.CellToWorld(initWaterPos) + groundTilemap.cellSize / 2, Quaternion.identity, this.transform);
     } 
@@ -74,7 +80,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         });
     }
 
-    public void HideWater()
+    public void HideWater(Player player)
     {
         Sequence seq = DOTween.Sequence();
 
@@ -83,7 +89,15 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         seq.OnComplete(() => 
         {
             Destroy(this._curWater.gameObject);
-            this.SpawnWater();
+            if (player.GetCurrentPos() == this._dataWaterPos || this.WaterHuntBossPos == this._dataWaterPos)
+            {
+                this.SpawnWater(true);
+                return;
+            }
+            else
+            {
+                this.SpawnWater();
+            }
         });
     }
 
@@ -197,7 +211,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         return false;
     }
 
-    public void MoveWaterHuntBoss()
+    public void MoveWaterHuntBoss(Player player)
     {
         this.WaterHuntBossPos = this.NewPosForBoss;
         Vector3Int posCheckTrap = new Vector3Int(WaterHuntBossPos.x, WaterHuntBossPos.y, 0);
@@ -211,7 +225,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         if (WaterHuntBoss.Health > 0 && 
             WaterHuntBossPos == this.WaterPos)
         {
-            this.HideWater();
+            this.HideWater(player);
         }
     }
 }

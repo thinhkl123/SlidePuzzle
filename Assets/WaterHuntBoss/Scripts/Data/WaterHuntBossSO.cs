@@ -20,4 +20,5 @@ public class WaterHuntBossDetail
     public int WaterHuntBossId;
     public Vector2Int BossSpawnPos;
     public Vector2Int WaterSpawnPos;
+    public Vector2Int WaterSpawnPos2;
 }

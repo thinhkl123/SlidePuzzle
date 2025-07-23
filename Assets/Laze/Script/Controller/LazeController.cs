@@ -23,6 +23,7 @@ public class LazeController : SingletonMono<LazeController>
     [Header(" Temp Data ")]
     private List<Vector3Int> _lazeLockPosTmp;
     private List<List<Vector3Int>> _listLight;
+    private List<GameObject> _listCrossingLight;
 
     public void SetInitLaze(int index)
     {
@@ -55,6 +56,7 @@ public class LazeController : SingletonMono<LazeController>
         {
             this._listLight.Add(new List<Vector3Int>());
         }
+        this._listCrossingLight = new List<GameObject>();
         this.SetLazes();
     }
 
@@ -117,12 +119,12 @@ public class LazeController : SingletonMono<LazeController>
             }
             else
             {
-                this._listLight[i] = this.SetLaze(pos2, offset, i);
+                this._listLight[i] = this.SetLaze(pos2, offset, i, true, direction);
             }
         }
     }
 
-    private List<Vector3Int> SetLaze(Vector2Int pos2, Vector2Int offset, int index, bool isSetTile = true)
+    private List<Vector3Int> SetLaze(Vector2Int pos2, Vector2Int offset, int index, bool isSetTile = true, Direction direction = Direction.None)
     {
         List<Vector3Int> listLight = new List<Vector3Int>();
         Vector3Int pos3 = new Vector3Int(pos2.x, pos2.y, 0);
@@ -139,6 +141,15 @@ public class LazeController : SingletonMono<LazeController>
             {
                 listLight.Add(pos3);
                 SlideController.Instance.lazeTilemap.SetTile(pos3, this._lightTile);
+                Vector3 scaleTile = new Vector3(2f, 1f, 1f);
+                Quaternion rotationTile = Quaternion.Euler(0, 0, 0);
+                Vector3 offsetTile = new Vector3(0, 0.05f, 0);
+                if (direction == Direction.Right)
+                {
+                    rotationTile = Quaternion.Euler(0, 0, 270);
+                }
+                Matrix4x4 transformMatrix = Matrix4x4.TRS(offsetTile, rotationTile, scaleTile);
+                SlideController.Instance.lazeTilemap.SetTransformMatrix(pos3, transformMatrix);
             }
 
         }
@@ -156,6 +167,14 @@ public class LazeController : SingletonMono<LazeController>
                 {
                     this.SetNullLight(i);
                 }
+            }
+        }
+
+        if (this._listCrossingLight.Count != 0)
+        {
+            foreach (GameObject crossingLight in this._listCrossingLight)
+            {
+                Destroy(crossingLight);
             }
         }
     }
@@ -197,6 +216,14 @@ public class LazeController : SingletonMono<LazeController>
         if (SlideController.Instance.itemTilemap.HasTile(pos3))
         {
             return false;
+        }
+
+        if (SlideController.Instance.lazeTilemap.HasTile(pos3))
+        {
+            Vector3Int cell = new Vector3Int(pos2Laze.x, pos2Laze.y, 0);
+            GameObject crossingLaze= Instantiate(this._lazeData.CrossingLightPrefab, transform);
+            crossingLaze.transform.position = SlideController.Instance.lazeTilemap.GetCellCenterWorld(cell);
+            this._listCrossingLight.Add(crossingLaze);
         }
 
         return true;
