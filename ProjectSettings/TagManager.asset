@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Door
+  - RescueTalk
   layers:
   - Default
   - TransparentFX

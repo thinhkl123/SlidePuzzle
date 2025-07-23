@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     public float jumpForce;
 
+    //private variable
+    private bool canControll = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,7 +47,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        currentState.OnUpdate(this);
+        if (canControll)
+        {
+            currentState.OnUpdate(this);
+        }
     }
 
     public void SwitchToState(PlayerBaseState newState)
@@ -73,6 +79,12 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Door"))
         {
             LoadingManager.instance.LoadScene("Level3");
+        }
+        else if (collision.CompareTag("RescueTalk"))
+        {
+            canControll = false;
+            this.rb.velocity = Vector2.zero;
+            DialogueManager.Instance.StartDialogueThisState();
         }
     }
 
