@@ -23,6 +23,7 @@ public class LazeController : SingletonMono<LazeController>
     [Header(" Temp Data ")]
     private List<Vector3Int> _lazeLockPosTmp;
     private List<List<Vector3Int>> _listLight;
+    private List<GameObject> _listCrossingLight;
 
     public void SetInitLaze(int index)
     {
@@ -55,6 +56,7 @@ public class LazeController : SingletonMono<LazeController>
         {
             this._listLight.Add(new List<Vector3Int>());
         }
+        this._listCrossingLight = new List<GameObject>();
         this.SetLazes();
     }
 
@@ -167,6 +169,14 @@ public class LazeController : SingletonMono<LazeController>
                 }
             }
         }
+
+        if (this._listCrossingLight.Count != 0)
+        {
+            foreach (GameObject crossingLight in this._listCrossingLight)
+            {
+                Destroy(crossingLight);
+            }
+        }
     }
 
     private void SetNullLight(int index)
@@ -206,6 +216,14 @@ public class LazeController : SingletonMono<LazeController>
         if (SlideController.Instance.itemTilemap.HasTile(pos3))
         {
             return false;
+        }
+
+        if (SlideController.Instance.lazeTilemap.HasTile(pos3))
+        {
+            Vector3Int cell = new Vector3Int(pos2Laze.x, pos2Laze.y, 0);
+            GameObject crossingLaze= Instantiate(this._lazeData.CrossingLightPrefab, transform);
+            crossingLaze.transform.position = SlideController.Instance.lazeTilemap.GetCellCenterWorld(cell);
+            this._listCrossingLight.Add(crossingLaze);
         }
 
         return true;

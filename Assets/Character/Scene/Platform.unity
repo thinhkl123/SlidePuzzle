@@ -645,8 +645,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.22703075, y: 0.046438456}
-  m_Size: {x: 0.871505, y: 3.079895}
+  m_Offset: {x: 0.22703075, y: 0.04244089}
+  m_Size: {x: 0.871505, y: 3.0878901}
   m_Direction: 0
 --- !u!50 &1501355471
 Rigidbody2D:
@@ -1100,4 +1100,3 @@ SceneRoots:
   - {fileID: 1577128566}
   - {fileID: 653937727}
   - {fileID: 1221783600}
-  - {fileID: 2077600851}

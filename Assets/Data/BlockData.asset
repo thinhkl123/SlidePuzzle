@@ -22,7 +22,7 @@ MonoBehaviour:
       - {x: -10, y: -13}
       keyTypeList: 02000000
       groundTileList:
-      - {fileID: 11400000, guid: 60086d71e6c7e2e499d5a3d4748397c0, type: 2}
+      - {fileID: 11400000, guid: e97b5c0ee249920428c6c6b005436616, type: 2}
     - numOfBlocks: 3
       BlockPosList:
       - {x: -7, y: -10}
@@ -30,7 +30,7 @@ MonoBehaviour:
       - {x: -9, y: -8}
       keyTypeList: 03000000
       groundTileList:
-      - {fileID: 11400000, guid: 60086d71e6c7e2e499d5a3d4748397c0, type: 2}
+      - {fileID: 11400000, guid: e97b5c0ee249920428c6c6b005436616, type: 2}
     - numOfBlocks: 3
       BlockPosList:
       - {x: -1, y: -3}
@@ -40,7 +40,7 @@ MonoBehaviour:
       - {x: 2, y: 0}
       keyTypeList: 030000000200000001000000
       groundTileList:
-      - {fileID: 11400000, guid: 60086d71e6c7e2e499d5a3d4748397c0, type: 2}
+      - {fileID: 11400000, guid: e97b5c0ee249920428c6c6b005436616, type: 2}
     - numOfBlocks: 3
       BlockPosList:
       - {x: 6, y: 7}
@@ -48,7 +48,7 @@ MonoBehaviour:
       - {x: 11, y: 9}
       keyTypeList: 01000000
       groundTileList:
-      - {fileID: 11400000, guid: 60086d71e6c7e2e499d5a3d4748397c0, type: 2}
+      - {fileID: 11400000, guid: e97b5c0ee249920428c6c6b005436616, type: 2}
     - numOfBlocks: 3
       BlockPosList:
       - {x: 12, y: 9}
@@ -58,4 +58,4 @@ MonoBehaviour:
       - {x: 11, y: 10}
       keyTypeList: 0200000001000000
       groundTileList:
-      - {fileID: 11400000, guid: 60086d71e6c7e2e499d5a3d4748397c0, type: 2}
+      - {fileID: 11400000, guid: e97b5c0ee249920428c6c6b005436616, type: 2}

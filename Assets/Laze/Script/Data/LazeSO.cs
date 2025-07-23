@@ -21,6 +21,7 @@ public class LazeLevel
 public class LazeSO : ScriptableObject
 {
     public Sprite LightSprite;
+    public GameObject CrossingLightPrefab;
     public Sprite LockSprite;
     public List<LazeLevel> ListLazeLevel;
 }

@@ -32,7 +32,7 @@ MonoBehaviour:
     LazeId: 1
     hasBossLong: 0
   - LevelId: 3
-    PlayerPosition: {x: 34, y: -1}
+    PlayerPosition: {x: -5, y: -28}
     ItemId: 3
     BlockId: 1
     EnemyNotMoveId: 1

@@ -13,6 +13,12 @@ public class WaterHuntBossView : MonoBehaviour
         Vector3Int newPos = new Vector3Int(newGridPos.x, newGridPos.y, 0);
         Tilemap groundTilemap = SlideController.Instance.groundTilemap;
         Vector3 worldPos = groundTilemap.GetCellCenterWorld(newPos);
+        this.transform.DOPunchScale(
+            punch: new Vector3(0.2f, 0.2f, 0f),
+            duration: 0.23f,
+            vibrato: 5,
+            elasticity: 0.5f
+        );
         this.transform.DOMove(worldPos, 0.25f).SetEase(Ease.InOutSine);
     }
 
@@ -30,6 +36,7 @@ public class WaterHuntBossView : MonoBehaviour
 
     public void SetHealth(int health)
     {
+        this.Shake();
         if (health == 3)
         {
             this.SetHealthFull();
@@ -42,6 +49,18 @@ public class WaterHuntBossView : MonoBehaviour
         {
             this.SetHealthEmpty();
         }
+    }
+
+    private void Shake()
+    {
+        this.transform.DOShakePosition(
+            duration: 0.2f,
+            strength: new Vector3(0.5f, 0.1f, 0.1f),
+            vibrato: 10,
+            randomness: 90f,
+            snapping: false,
+            fadeOut: true
+        );
     }
 
     public void SetHealthFull()
