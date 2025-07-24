@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 602da975a10cd5740812254dcfe061dc
+guid: eb6b89a2acc60c345b3c92e6942f431b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,22 +123,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boss level3 ver2_0
+      name: "boss level3 th\xE2n_0"
       rect:
         serializedVersion: 2
-        x: 631
-        y: 257
-        width: 560
-        height: 453
+        x: 649
+        y: 206
+        width: 671
+        height: 668
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3be09407d62cb2b4ca3e1e2129831332
-      internalID: -1986546412
+      spriteID: f4a90f5d7ebd1924db9e7dc3820fe023
+      internalID: -94758595
       vertices: []
       indices: 
       edges: []
@@ -154,7 +154,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      boss level3 ver2_0: -1986546412
+      "boss level3 th\xE2n_0": -94758595
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

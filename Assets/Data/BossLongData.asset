@@ -23,10 +23,10 @@ MonoBehaviour:
   - obstaclePos:
     - {x: 34, y: 6}
     - {x: 37, y: 0}
-  headTile: {fileID: 11400000, guid: 139d849dd4268aa48933d9e25a3f47f1, type: 2}
-  bodyTile: {fileID: 11400000, guid: 04906b1d6f53e564da2b3c5cd20d0f7a, type: 2}
-  tailTile: {fileID: 11400000, guid: 7564293927472554eb482b72f5001b3c, type: 2}
+  headTile: {fileID: 11400000, guid: 7564293927472554eb482b72f5001b3c, type: 2}
+  bodyTile: {fileID: 11400000, guid: f2b52ca7831045f4989917fc06791eda, type: 2}
+  tailTile: {fileID: 11400000, guid: 2555b7b6f6dc1f84589178cea6b000f5, type: 2}
   obstacleTile: {fileID: 11400000, guid: 06880301d7fe12245bc8effe1ed17408, type: 2}
-  headSprite: {fileID: -743793236, guid: cebd8135605ecbb4596fe141e7cc4817, type: 3}
-  bodySprite: {fileID: -900720355, guid: cebd8135605ecbb4596fe141e7cc4817, type: 3}
-  tailSprite: {fileID: -966079269, guid: c6ed8e99e10990f4c8e8011a3c603b39, type: 3}
+  headSprite: {fileID: 929141349, guid: caac307bab4aa9948812f7800d1a4376, type: 3}
+  bodySprite: {fileID: -94758595, guid: eb6b89a2acc60c345b3c92e6942f431b, type: 3}
+  tailSprite: {fileID: -1986546412, guid: 602da975a10cd5740812254dcfe061dc, type: 3}
