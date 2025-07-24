@@ -27,8 +27,11 @@ public class DialogueManager : SingletonMono<DialogueManager>
     public float typeSpeed = 0.03f;
     public bool isShowing = false;
 
+    private bool isEnded = false;
+
     private void Start()
     {
+        isEnded = false;
         if (isAfter)
         {
             rescueCreature.PlayRescueEffect();
@@ -110,6 +113,13 @@ public class DialogueManager : SingletonMono<DialogueManager>
 
     void EndDialogue()
     {
+        if (isEnded)
+        {
+            return;
+        }
+
+        isEnded = true;
+
         dialogueBox.SetActive(false);
         if (isAfter)
         {
