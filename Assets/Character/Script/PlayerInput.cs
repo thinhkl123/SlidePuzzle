@@ -12,6 +12,6 @@ public class PlayerInput : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        isJump = Input.GetKeyDown(KeyCode.Space);
+        isJump = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
     }
 }
