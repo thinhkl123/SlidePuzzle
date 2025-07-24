@@ -20,6 +20,7 @@ public class GuideUI : UICanvas
 
     private void OnClickCloseBtn()
     {
+        GameManager.Instance.State = GameState.Playing;
         UIManager.Instance.CloseUI<GuideUI>();
     }
 }

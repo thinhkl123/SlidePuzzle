@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDestroyOnClose: 0
   pauseBtn: {fileID: 5892119650699352095}
-  tutorialBtn: {fileID: 0}
+  tutorialBtn: {fileID: 2885911075323802228}
 --- !u!1 &6824368678498822931
 GameObject:
   m_ObjectHideFlags: 0

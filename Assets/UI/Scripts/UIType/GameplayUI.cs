@@ -25,16 +25,24 @@ public class GameplayUI : UICanvas
     private void OnEnable()
     {
         pauseBtn.onClick.AddListener(OnClickPauseBtn);
+        tutorialBtn.onClick.AddListener(OnClickTutorialBtn);
     }
 
     private void OnDisable()
     {
         pauseBtn.onClick.RemoveListener(OnClickPauseBtn);
+        tutorialBtn.onClick.RemoveListener(OnClickTutorialBtn);
     }
 
     private void OnClickPauseBtn()
     {
         GameManager.Instance.State = GameState.Pause;
         UIManager.Instance.OpenUI<PauseUI>();
+    }
+
+    private void OnClickTutorialBtn()
+    {
+        GameManager.Instance.State = GameState.Pause;
+        UIManager.Instance.OpenUI<GuideUI>();
     }
 }
