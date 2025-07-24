@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/DialogueSystem/Scene/Level 2 After.unity
     guid: 87113ec03a428a045ad00e08fedb80b5
+  - enabled: 1
+    path: Assets/DialogueSystem/Scene/Level 3.unity
+    guid: e9b96bc3a3c14ed4a9c3c5e1e19b338d
+  - enabled: 1
+    path: Assets/DialogueSystem/Scene/Level 3 After.unity
+    guid: a5467b7b10b182d418b6fd6b1bad77ca
   m_configObjects: {}
