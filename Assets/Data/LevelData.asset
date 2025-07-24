@@ -17,7 +17,7 @@ MonoBehaviour:
     PlayerPosition: {x: 1, y: -5}
     ItemId: 1
     BlockId: 0
-    EnemyNotMoveId: 0
+    EnemyNotMoveId: 3
     PuzzleSortId: 1
     WaterHuntBossId: 0
     LazeId: 0

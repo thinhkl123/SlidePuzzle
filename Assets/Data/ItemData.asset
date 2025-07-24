@@ -28,6 +28,7 @@ MonoBehaviour:
     - {x: 3, y: 52}
     - {x: 3, y: 53}
     - {x: 3, y: 56}
+    - {x: -4, y: 39}
     KeyPosList: []
     KeyTypeList: 
   - ItemId: 2
