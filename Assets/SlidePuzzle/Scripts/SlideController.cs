@@ -45,7 +45,6 @@ public class SlideController : SingletonMono<SlideController>
 
     private void Start()
     {
-        //SpawnLevel();
         canSlide = true;
     }
 
@@ -782,7 +781,7 @@ public class SlideController : SingletonMono<SlideController>
     public void SpawnLevel()
     {
         curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
-        curLevelId = 3;
+        //curLevelId = 3;
         CreateGridPrefab();
         this.SetPuzzleSort();
         this.SetWaterHuntBoss();
