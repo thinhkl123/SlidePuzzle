@@ -215,5 +215,6 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
     public void Win()
     {
         Debug.Log("Win Puzzle Sort");
+        DialogueManager.Instance.NextLevel();
     }
 }

@@ -232,5 +232,6 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public void Win()
     {
         Debug.Log("Win Water Hunt Boss");
+        DialogueManager.Instance.NextLevel();
     }
 }

@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/DialogueSystem/Scene/Level 1 After.unity
     guid: c0d1ba10001bb99488ad5b6547669456
+  - enabled: 1
+    path: Assets/SlidePuzzle/Scene/Puzzle.unity
+    guid: a7766a1473084f44aaea4a8892854340
   m_configObjects: {}

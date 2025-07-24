@@ -10,6 +10,8 @@ public class MenuUI : MonoBehaviour
 
     public void OnClickStartBtn()
     {
+        PlayerPrefs.SetInt(Constant.LEVELID, 1);
+        PlayerPrefs.Save();
         LoadingManager.instance.LoadScene("Level 1");
     }
 

@@ -109,16 +109,33 @@ public class DialogueManager : SingletonMono<DialogueManager>
     void EndDialogue()
     {
         dialogueBox.SetActive(false);
-        if (!isAfter)
+        if (isAfter)
         {
             //Load next level
-            LoadingManager.instance.LoadScene("Level 2");
+            this.LoadLevel();
         }
         else
         {
             //Load to puzzle
             LoadingManager.instance.LoadScene("Puzzle");
         }
+    }
+
+    public void LoadLevel()
+    {
+        int currentLevel = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        //LoadingManager.instance.LoadScene("Level " + currentLevel);
+        LoadingManager.instance.LoadScene("Level 1");
+    }
+
+    public void NextLevel()
+    {
+        int currentLevel = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        int nextLevel = currentLevel + 1;
+        PlayerPrefs.SetInt(Constant.LEVELID, nextLevel);
+        PlayerPrefs.Save();
+        //LoadingManager.instance.LoadScene("currentLevel " + nextLevel + " After");
+        LoadingManager.instance.LoadScene("Level 1 After");
     }
 
     // Gọi hàm này khi người chơi bấm nút Next
