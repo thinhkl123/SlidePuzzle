@@ -212,9 +212,15 @@ public class PuzzleSortController : SingletonMono<PuzzleSortController>
         player.Teleport(newPlayerPos, worldPos);
     }
 
-    public void Win()
+    public void WinBoss()
     {
         Debug.Log("Win Puzzle Sort");
-        DialogueManager.Instance.NextLevel();
+        Invoke(nameof(LoadSceneAfterWin), 0.5f);
+    }
+
+    private void LoadSceneAfterWin()
+    {
+        int currentLevel = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        LoadingManager.instance.LoadScene("Level " + currentLevel + " After");
     }
 }

@@ -7,6 +7,20 @@ using UnityEngine.UI;
 public class GameplayUI : UICanvas
 {
     [SerializeField] private Button pauseBtn;
+    [SerializeField] private Button tutorialBtn;
+
+    private void Start()
+    {
+        int curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        if (curLevelId == 3)
+        {
+            tutorialBtn.gameObject.SetActive(true);
+        }
+        else
+        {
+            tutorialBtn.gameObject.SetActive(false);
+        }
+    }
 
     private void OnEnable()
     {
@@ -23,10 +37,4 @@ public class GameplayUI : UICanvas
         GameManager.Instance.State = GameState.Pause;
         UIManager.Instance.OpenUI<PauseUI>();
     }
-
-    private void Start()
-    {
-        
-    }
-
 }

@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class GuideUI : UICanvas
 {
-    [SerializeField] private InformationPanel informationPanelPrefab;
-    [SerializeField] private GameObject scrollView;
     [SerializeField] private Button closeBtn;
 
     private void OnEnable()
@@ -23,10 +21,5 @@ public class GuideUI : UICanvas
     private void OnClickCloseBtn()
     {
         UIManager.Instance.CloseUI<GuideUI>();
-    }
-
-    private void Start()
-    {
-        
     }
 }

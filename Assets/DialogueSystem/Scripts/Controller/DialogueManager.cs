@@ -25,6 +25,7 @@ public class DialogueManager : SingletonMono<DialogueManager>
     private bool isStarted = false;
 
     public float typeSpeed = 0.03f;
+    public bool isShowing = false;
 
     private void Start()
     {
@@ -37,6 +38,7 @@ public class DialogueManager : SingletonMono<DialogueManager>
 
     public void StartDialogueThisState()
     {
+        isShowing = true;
         DialogueLevelDetail levelDetail = DialogueData.DialogueLevelDetails[levelId - 1];
         if (isAfter)
         {
@@ -111,8 +113,7 @@ public class DialogueManager : SingletonMono<DialogueManager>
         dialogueBox.SetActive(false);
         if (isAfter)
         {
-            //Load next level
-            this.LoadLevel();
+            isShowing = false;
         }
         else
         {
@@ -121,21 +122,14 @@ public class DialogueManager : SingletonMono<DialogueManager>
         }
     }
 
-    public void LoadLevel()
-    {
-        int currentLevel = PlayerPrefs.GetInt(Constant.LEVELID, 1);
-        //LoadingManager.instance.LoadScene("Level " + currentLevel);
-        LoadingManager.instance.LoadScene("Level 1");
-    }
-
     public void NextLevel()
     {
         int currentLevel = PlayerPrefs.GetInt(Constant.LEVELID, 1);
         int nextLevel = currentLevel + 1;
         PlayerPrefs.SetInt(Constant.LEVELID, nextLevel);
         PlayerPrefs.Save();
-        //LoadingManager.instance.LoadScene("currentLevel " + nextLevel + " After");
-        LoadingManager.instance.LoadScene("Level 1 After");
+        LoadingManager.instance.LoadScene("Level " + nextLevel);
+        //LoadingManager.instance.LoadScene("Level 1 After");
     }
 
     // Gọi hàm này khi người chơi bấm nút Next

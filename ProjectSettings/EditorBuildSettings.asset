@@ -12,15 +12,15 @@ EditorBuildSettings:
     path: Assets/Character/Scene/Platform.unity
     guid: adfc79b3c623f1b4da729c177f17ade4
   - enabled: 1
-    path: Assets/LevelDesign/Level2/Level2.unity
-    guid: 3e5a3a6fffafb634ab3346c35fb2b303
+    path: Assets/SlidePuzzle/Scene/Puzzle.unity
+    guid: a7766a1473084f44aaea4a8892854340
   - enabled: 1
     path: Assets/DialogueSystem/Scene/Level 1.unity
     guid: 73383c6977e454f4a9b22d7f5be7895e
   - enabled: 1
     path: Assets/DialogueSystem/Scene/Level 1 After.unity
-    guid: c0d1ba10001bb99488ad5b6547669456
+    guid: 3b39cd4f3ab610d418423266c0b06c76
   - enabled: 1
-    path: Assets/SlidePuzzle/Scene/Puzzle.unity
-    guid: a7766a1473084f44aaea4a8892854340
+    path: Assets/DialogueSystem/Scene/Level 2.unity
+    guid: a15556f7973f0874480023f478495f19
   m_configObjects: {}

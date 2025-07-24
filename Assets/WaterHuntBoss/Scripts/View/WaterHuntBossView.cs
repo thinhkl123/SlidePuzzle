@@ -28,7 +28,7 @@ public class WaterHuntBossView : MonoBehaviour
         seq.Join(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack));
         seq.OnComplete(() => 
         {
-            WaterHuntBossController.Instance.Win();
+            WaterHuntBossController.Instance.WinBoss();
         });
     }
 

@@ -101,4 +101,15 @@ public class BossLongController : SingletonMono<BossLongController>
         //obj.SetSprite(DataManager.Instance.BossLongData.headSprite);
         //objList.Add(obj);
     }
+
+    public void WinBoss()
+    {
+        Invoke(nameof(LoadSceneAfterWin), 0.5f);
+    }
+
+    private void LoadSceneAfterWin()
+    {
+        int currentLevel = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        LoadingManager.instance.LoadScene("Level " + currentLevel + " After");
+    }
 }

@@ -748,7 +748,7 @@ public class SlideController : SingletonMono<SlideController>
                 {
                     if (PuzzleSortController.Instance.CheckResult())
                     {
-                        PuzzleSortController.Instance.Win();
+                        PuzzleSortController.Instance.WinBoss();
                     }
                 }
             }

@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (canControll)
+        if (canControll && !DialogueManager.Instance.isShowing)
         {
             currentState.OnUpdate(this);
         }
@@ -86,6 +86,10 @@ public class PlayerController : MonoBehaviour
             this.rb.velocity = Vector2.zero;
             this.animator.SetFloat("Speed", 0f);
             DialogueManager.Instance.StartDialogueThisState();
+        }
+        else if (collision.CompareTag("NextPoint"))
+        {
+            DialogueManager.Instance.NextLevel();
         }
     }
 

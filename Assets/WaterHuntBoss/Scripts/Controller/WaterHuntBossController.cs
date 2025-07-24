@@ -229,9 +229,15 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
         }
     }
 
-    public void Win()
+    public void WinBoss()
     {
         Debug.Log("Win Water Hunt Boss");
-        DialogueManager.Instance.NextLevel();
+        Invoke(nameof(LoadSceneAfterWin), 0f);
+    }
+
+    private void LoadSceneAfterWin()
+    {
+        int currentLevel = PlayerPrefs.GetInt(Constant.LEVELID, 1);
+        LoadingManager.instance.LoadScene("Level " + currentLevel + " After");
     }
 }
