@@ -26,7 +26,7 @@ MonoBehaviour:
   headTile: {fileID: 11400000, guid: 139d849dd4268aa48933d9e25a3f47f1, type: 2}
   bodyTile: {fileID: 11400000, guid: 04906b1d6f53e564da2b3c5cd20d0f7a, type: 2}
   tailTile: {fileID: 11400000, guid: 7564293927472554eb482b72f5001b3c, type: 2}
-  obstacleTile: {fileID: 11400000, guid: 14fc888d2cc75f348bf4fc3e76a1bc34, type: 2}
+  obstacleTile: {fileID: 11400000, guid: 06880301d7fe12245bc8effe1ed17408, type: 2}
   headSprite: {fileID: -743793236, guid: cebd8135605ecbb4596fe141e7cc4817, type: 3}
   bodySprite: {fileID: -900720355, guid: cebd8135605ecbb4596fe141e7cc4817, type: 3}
   tailSprite: {fileID: -966079269, guid: c6ed8e99e10990f4c8e8011a3c603b39, type: 3}
