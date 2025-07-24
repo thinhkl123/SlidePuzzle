@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     public bool isGround()
     {
         //RaycastHit hit;
-        return Physics2D.Raycast(transform.position, Vector2.down, 1.65f, groundLayer);
+        return Physics2D.Raycast(transform.position, Vector2.down, 1.4f, groundLayer);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 1.65f);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 1.4f);
 
         Gizmos.color = Color.red;
     }
