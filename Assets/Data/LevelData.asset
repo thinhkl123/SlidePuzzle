@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelDetails:
   - LevelId: 1
-    PlayerPosition: {x: 8, y: 58}
+    PlayerPosition: {x: 1, y: -5}
     ItemId: 1
     BlockId: 0
     EnemyNotMoveId: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
     PlayerPosition: {x: -16, y: -26}
     ItemId: 2
     BlockId: 0
-    EnemyNotMoveId: 0
+    EnemyNotMoveId: 2
     PuzzleSortId: 0
     WaterHuntBossId: 1
     LazeId: 1

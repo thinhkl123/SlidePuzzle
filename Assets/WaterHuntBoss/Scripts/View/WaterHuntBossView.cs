@@ -4,9 +4,6 @@ using UnityEngine.Tilemaps;
 
 public class WaterHuntBossView : MonoBehaviour
 {
-    public GameObject HealthFull;
-    public GameObject HealthHalf;
-    public GameObject HealthEmpty;
 
     public void Move(Vector2Int newGridPos)
     {
@@ -35,18 +32,6 @@ public class WaterHuntBossView : MonoBehaviour
 
     public void SetHealth(int health)
     {
-        if (health == 3)
-        {
-            this.SetHealthFull();
-        }
-        else if (health == 2)
-        {
-            this.SetHealthHalf();
-        }
-        else if (health == 1)
-        {
-            this.SetHealthEmpty();
-        }
         this.Shake();
     }
 
@@ -71,26 +56,5 @@ public class WaterHuntBossView : MonoBehaviour
         {
             WaterHuntBossController.Instance.WaterHuntBoss.WaterHuntBossView.SetHide();
         }
-    }
-
-    public void SetHealthFull()
-    {
-        HealthFull.SetActive(true);
-        HealthHalf.SetActive(false);
-        HealthEmpty.SetActive(false);
-    }
-
-    public void SetHealthHalf()
-    {
-        HealthFull.SetActive(false);
-        HealthHalf.SetActive(true);
-        HealthEmpty.SetActive(false);
-    }
-
-    public void SetHealthEmpty()
-    {
-        HealthFull.SetActive(false);
-        HealthHalf.SetActive(false);
-        HealthEmpty.SetActive(true);
     }
 }
