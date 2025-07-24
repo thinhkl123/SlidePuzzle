@@ -67,32 +67,32 @@ MonoBehaviour:
       sentence: "Ch\xFAng ta nh\u1EA5t \u0111\u1ECBnh kh\xF4ng \u0111\u1EC3 \u0111\u1EA1i
         d\u01B0\u01A1ng tr\u1EDF th\xE0nh m\u1ED3 ch\xF4n \u0111\u01B0\u1EE3c."
     - speakerName: Turtle
-      speakerIcon: {fileID: -1440514829, guid: f05c3e1967dc14243b125bf7664ffe9b, type: 3}
+      speakerIcon: {fileID: 816780642, guid: ebd16ce6754fc024584d13b3729e8700, type: 3}
       sentence: "T\u1EDB \u0111\xE3 t\u1EEBng b\u01A1i qua r\u1EA5t nhi\u1EC1u v\xF9ng
         bi\u1EC3n trong v\xE0 xanh ng\u1EAFt\u2026"
     - speakerName: Turtle
-      speakerIcon: {fileID: -1440514829, guid: f05c3e1967dc14243b125bf7664ffe9b, type: 3}
+      speakerIcon: {fileID: 816780642, guid: ebd16ce6754fc024584d13b3729e8700, type: 3}
       sentence: "Nh\u01B0ng gi\u1EDD th\xEC\u2026 ch\u1EB3ng nh\u1EA5c n\u1ED5i ch\xE2n
         d\u01B0\u1EDBi \u0111\u1ED1ng r\xE1c n\xE0y n\u1EEFa\u2026"
     dialogueLineAfter:
     - speakerName: Turtle
-      speakerIcon: {fileID: 0}
+      speakerIcon: {fileID: 1487610435, guid: 36f05f14f726af74a982413f41feb71d, type: 3}
       sentence: "D\xF2ng n\u01B0\u1EDBc s\u1EA1ch... t\u1EDB l\u1EA1i c\xF3 th\u1EC3
         b\u01A1i \u0111\u01B0\u1EE3c r\u1ED3i."
     - speakerName: Turtle
-      speakerIcon: {fileID: 0}
+      speakerIcon: {fileID: 1487610435, guid: 36f05f14f726af74a982413f41feb71d, type: 3}
       sentence: "Tinh linh \xE0\u2026 c\u1EADu h\u1EC7t nh\u01B0 m\u1ED9t c\u01A1n
         s\xF3ng m\u1EDBi th\u1ED5i hy v\u1ECDng v\xE0o v\u1EADy."
     - speakerName: Turtle
-      speakerIcon: {fileID: 0}
+      speakerIcon: {fileID: 1487610435, guid: 36f05f14f726af74a982413f41feb71d, type: 3}
       sentence: "C\u1EA3m \u01A1n v\xEC \u0111\xE3 \u0111\u1EC3 bi\u1EC3n \u0111\u01B0\u1EE3c
         s\u1ED1ng th\xEAm l\u1EA7n n\u1EEFa!!"
     - speakerName: Linh
-      speakerIcon: {fileID: 0}
+      speakerIcon: {fileID: -1440514829, guid: f05c3e1967dc14243b125bf7664ffe9b, type: 3}
       sentence: "Bi\u1EC3n c\u1EA7n nh\u1EEFng sinh v\u1EADt nh\u01B0 c\u1EADu \u2013
         m\u1EA1nh m\u1EBD v\xE0 t\u1EF1 do."
     - speakerName: Linh
-      speakerIcon: {fileID: 0}
+      speakerIcon: {fileID: -1440514829, guid: f05c3e1967dc14243b125bf7664ffe9b, type: 3}
       sentence: "M\xECnh s\u1EBD ti\u1EBFp t\u1EE5c... c\u1EADu c\u1EE9 b\u01A1i
         th\u1EADt xa nh\xE9."
   - levelId: 3
@@ -129,10 +129,10 @@ MonoBehaviour:
       sentence: "T\u1EDB s\u1EBD bay c\xF9ng b\u1EA7u tr\u1EDDi v\xE0 th\u1EAFp s\xE1ng
         con \u0111\u01B0\u1EDDng \u1EA5y."
     - speakerName: Linh
-      speakerIcon: {fileID: 0}
+      speakerIcon: {fileID: -1440514829, guid: f05c3e1967dc14243b125bf7664ffe9b, type: 3}
       sentence: "\u0110\u01B0\u1EE3c. Ch\xFAng ta s\u1EBD kh\xF4ng \u0111\u1EC3 b\u1EA7u
         tr\u1EDDi b\u1ECB l\xE3ng qu\xEAn."
     - speakerName: Linh
-      speakerIcon: {fileID: 0}
+      speakerIcon: {fileID: -1440514829, guid: f05c3e1967dc14243b125bf7664ffe9b, type: 3}
       sentence: "Bay nh\xE9 ph\u01B0\u1EE3ng ho\xE0ng, th\u1EBF gi\u1EDBi lu\xF4n
         c\u1EA7n \xE1nh s\xE1ng t\u1EEB c\u1EADu."
