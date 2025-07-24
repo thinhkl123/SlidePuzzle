@@ -14,14 +14,6 @@ public class WaterHuntBossModel
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        Debug.Log(Health);
-        if (Health <= 0)
-        {
-            this.WaterHuntBossView.SetHide();
-        }
-        else
-        {
-            this.WaterHuntBossView.SetHealth(Health);
-        }
+        this.WaterHuntBossView.SetHealth(Health);
     }
 }

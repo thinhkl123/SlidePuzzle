@@ -738,17 +738,20 @@ public class SlideController : SingletonMono<SlideController>
                 LazeController.Instance.SetLazes();
             }
 
-            if (puzzleSortId < 0)
+            if (puzzleSortId > 0)
             {
-                return;
+                if (!inPuzzleSort)
+                {
+                    PuzzleSortController.Instance.CheckPortPos(_player);
+                }
+                else 
+                {
+                    if (PuzzleSortController.Instance.CheckResult())
+                    {
+                        PuzzleSortController.Instance.Win();
+                    }
+                }
             }
-
-            if (inPuzzleSort)
-            {
-                PuzzleSortController.Instance.CheckResult(_player);
-                return;
-            }
-            PuzzleSortController.Instance.CheckPortPos(_player);
         });
     }
 
@@ -779,7 +782,7 @@ public class SlideController : SingletonMono<SlideController>
     public void SpawnLevel()
     {
         //curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
-        curLevelId = 3;
+        curLevelId = 2;
         CreateGridPrefab();
         this.SetPuzzleSort();
         this.SetWaterHuntBoss();

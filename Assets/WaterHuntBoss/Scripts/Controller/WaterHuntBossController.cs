@@ -228,4 +228,9 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
             this.HideWater(player);
         }
     }
+
+    public void Win()
+    {
+        Debug.Log("Win Water Hunt Boss");
+    }
 }

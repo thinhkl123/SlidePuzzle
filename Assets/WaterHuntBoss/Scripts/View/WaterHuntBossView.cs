@@ -25,18 +25,16 @@ public class WaterHuntBossView : MonoBehaviour
     public void SetHide()
     {
         Sequence seq = DOTween.Sequence();
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            seq.Join(sr.DOFade(0, 0.2f));
-        }
         seq.Join(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack));
-        seq.OnComplete(() => Destroy(gameObject));
+        seq.OnComplete(() => 
+        {
+            WaterHuntBossController.Instance.Win();
+        });
     }
+
 
     public void SetHealth(int health)
     {
-        this.Shake();
         if (health == 3)
         {
             this.SetHealthFull();
@@ -49,18 +47,30 @@ public class WaterHuntBossView : MonoBehaviour
         {
             this.SetHealthEmpty();
         }
+        this.Shake();
     }
 
     private void Shake()
     {
         this.transform.DOShakePosition(
             duration: 0.2f,
-            strength: new Vector3(0.5f, 0.1f, 0.1f),
+            strength: new Vector3(0.1f, 0.1f, 0.1f),
             vibrato: 10,
             randomness: 90f,
             snapping: false,
             fadeOut: true
-        );
+        ).OnComplete(() => 
+        {
+            CheckDie();
+        });
+    }
+
+    private void CheckDie()
+    {
+        if (WaterHuntBossController.Instance.WaterHuntBoss.Health <= 0)
+        {
+            WaterHuntBossController.Instance.WaterHuntBoss.WaterHuntBossView.SetHide();
+        }
     }
 
     public void SetHealthFull()
