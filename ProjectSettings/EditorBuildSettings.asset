@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Character/Scene/Platform.unity
-    guid: adfc79b3c623f1b4da729c177f17ade4
+    path: Assets/Main/StartMenu/Scene/StartScene.unity
+    guid: 09292fbb15316cb408ed246a72f162f1
   - enabled: 1
     path: Assets/SlidePuzzle/Scene/Puzzle.unity
     guid: a7766a1473084f44aaea4a8892854340

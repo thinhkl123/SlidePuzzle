@@ -12,37 +12,21 @@ public class GameplayUI : UICanvas
     private void Start()
     {
         int curLevelId = PlayerPrefs.GetInt(Constant.LEVELID, 1);
-        if (curLevelId == 3)
-        {
-            tutorialBtn.gameObject.SetActive(true);
-        }
-        else
-        {
-            tutorialBtn.gameObject.SetActive(false);
-        }
     }
 
     private void OnEnable()
     {
         pauseBtn.onClick.AddListener(OnClickPauseBtn);
-        tutorialBtn.onClick.AddListener(OnClickTutorialBtn);
     }
 
     private void OnDisable()
     {
         pauseBtn.onClick.RemoveListener(OnClickPauseBtn);
-        tutorialBtn.onClick.RemoveListener(OnClickTutorialBtn);
     }
 
     private void OnClickPauseBtn()
     {
         GameManager.Instance.State = GameState.Pause;
         UIManager.Instance.OpenUI<PauseUI>();
-    }
-
-    private void OnClickTutorialBtn()
-    {
-        GameManager.Instance.State = GameState.Pause;
-        UIManager.Instance.OpenUI<GuideUI>();
     }
 }
