@@ -232,7 +232,7 @@ public class WaterHuntBossController : SingletonMono<WaterHuntBossController>
     public void WinBoss()
     {
         Debug.Log("Win Water Hunt Boss");
-        Invoke(nameof(LoadSceneAfterWin), 0f);
+        Invoke(nameof(LoadSceneAfterWin), 0.2f);
     }
 
     private void LoadSceneAfterWin()
